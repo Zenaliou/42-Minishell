@@ -8,7 +8,6 @@ int main(int argc, char **argv, char **envp)
 
     (void)argc;
     (void)argv;
-
     while (1)
     {
         line = readline("minishell> ");
@@ -19,13 +18,10 @@ int main(int argc, char **argv, char **envp)
         }
         if (*line)
             add_history(line);
-
         tokens = tokenize(line);
         expand_variables(tokens, envp);
         cmds = parse_tokens(tokens);
-
         execute_commands(cmds, envp);
-
         free_tokens(tokens);
         free_cmds(cmds);
         free(line);
