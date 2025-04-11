@@ -6,17 +6,24 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/11 11:57:21 by niclee           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:29:22 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"'
+#include "../includes/minishell.h"
 
 t_token	*new_token(char *value, t_token_type type)
 {
 	t_token	*token;
 
+	if (!value)
+		return (NULL);
 	token = malloc(sizeof(t_token));
+	if (!token)
+	{
+		free(value);
+		return (NULL);
+	}
 	token->value = value;
 	token->type = type;
 	token->next = NULL;
@@ -26,8 +33,10 @@ t_token	*new_token(char *value, t_token_type type)
 void	add_token(t_token **list, t_token *new)
 {
 	t_token	*tmp;
-	
-	if (!list)
+
+	if (!new)
+		return ;
+	if (!*list)
 		*list = new;
 	else
 	{
@@ -94,8 +103,8 @@ t_token	*tokenize(char *line)
 				line++;
 			add_token(&tokens, new_token(ft_strndup(start, line - start), WORD));
 		}
-		return (tokens);
 	}
+	return (tokens);
 }
 
 // TESTING FUNCTION
