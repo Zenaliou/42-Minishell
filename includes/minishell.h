@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <ctype.h>
+# include "libft.h"
 
 typedef enum e_token_type {
     WORD,
