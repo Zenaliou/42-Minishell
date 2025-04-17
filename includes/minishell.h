@@ -46,7 +46,7 @@ char *extract_word(char **input);
 t_cmd *parse_tokens(t_token *tokens);
 void add_argument(t_cmd *cmd, char *arg);
 t_cmd *new_cmd(void);
-void add_cmd(t_cmd **cmds, t_cmd *cmd);
+void add_cmd(t_cmd **cmds, t_cmd *new_cmd);
 
 // Expansion
 void expand_variables(t_token *tokens, char **env);

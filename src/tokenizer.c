@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/13 12:17:05 by niclee           ###   ########.fr       */
+/*   Updated: 2025/04/17 10:25:03 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,45 +109,45 @@ t_token	*tokenize(char *line)
 
 // TESTING FUNCTION
 
-void print_tokens(t_token *tokens)
-{
-    while (tokens)
-    {
-        printf("Token: '%s', Type: %d\n", tokens->value, tokens->type);
-        tokens = tokens->next;
-    }
-}
+// void print_tokens(t_token *tokens)
+// {
+//     while (tokens)
+//     {
+//         printf("Token: '%s', Type: %d\n", tokens->value, tokens->type);
+//         tokens = tokens->next;
+//     }
+// }
 
-int main(void)
-{
-    char line[1024];
-    t_token *tokens;
+// int main(void)
+// {
+//     char line[1024];
+//     t_token *tokens;
 
-    printf("Enter a command line to tokenize: ");
-    if (fgets(line, sizeof(line), stdin) == NULL)
-    {
-        perror("Error reading input");
-        return (1);
-    }
-    size_t len = strlen(line);
-    if (len > 0 && line[len - 1] == '\n')
-        line[len - 1] = '\0';
+//     printf("Enter a command line to tokenize: ");
+//     if (fgets(line, sizeof(line), stdin) == NULL)
+//     {
+//         perror("Error reading input");
+//         return (1);
+//     }
+//     size_t len = strlen(line);
+//     if (len > 0 && line[len - 1] == '\n')
+//         line[len - 1] = '\0';
 
-    tokens = tokenize(line);
-    if (!tokens)
-    {
-        printf("No tokens generated.\n");
-        return (1);
-    }
-    printf("Generated tokens:\n");
-    print_tokens(tokens);
-    t_token *tmp;
-    while (tokens)
-    {
-        tmp = tokens;
-        tokens = tokens->next;
-        free(tmp->value);
-        free(tmp);
-    }
-    return (0);
-}
+//     tokens = tokenize(line);
+//     if (!tokens)
+//     {
+//         printf("No tokens generated.\n");
+//         return (1);
+//     }
+//     printf("Generated tokens:\n");
+//     print_tokens(tokens);
+//     t_token *tmp;
+//     while (tokens)
+//     {
+//         tmp = tokens;
+//         tokens = tokens->next;
+//         free(tmp->value);
+//         free(tmp);
+//     }
+//     return (0);
+// }
