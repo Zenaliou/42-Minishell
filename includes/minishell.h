@@ -47,20 +47,21 @@ void    add_token(t_token **list, t_token *new);
 char    *extract_word(char **input);
 
 // Parsing
-t_cmd *parse_tokens(t_token *tokens);
-void add_argument(t_cmd *cmd, char *arg);
-t_cmd *new_cmd(void);
-void add_cmd(t_cmd **cmds, t_cmd *new_cmd);
+t_cmd   *parse_tokens(t_token *tokens);
+void    add_argument(t_cmd *cmd, char *arg);
+t_cmd   *new_cmd(void);
+void    add_cmd(t_cmd **cmds, t_cmd *new_cmd);
 
 // Expansion
-void expand_variables(t_token *tokens, char **env);
-char *expand_env(char *str, char **env);
+void    expand_variables(t_token *tokens, char **env);
+char    *expand_env(char *str, char **env);
+void	expand_wildcards(t_token *tokens);
 
 // Execution (à compléter selon ton projet)
-void execute_commands(t_cmd *cmds, char **env);
+void    execute_commands(t_cmd *cmds, char **env);
 
 // Memory
-void free_tokens(t_token *tokens);
-void free_cmds(t_cmd *cmds);
+void    free_tokens(t_token *tokens);
+void    free_cmds(t_cmd *cmds);
 
 #endif

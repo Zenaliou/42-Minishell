@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/17 10:25:03 by niclee           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:32:48 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ t_token_type	get_token_type(char *s)
 {
 	if (!s)
 		return (WORD);
+	if (!ft_strcmp(s, "&&"))
+		return (AND);
+	if (!ft_strcmp(s, "||"))
+		return (OR);
 	if (!ft_strcmp(s, "|"))
 		return (PIPE);
 	if (!ft_strcmp(s, "<"))
@@ -94,6 +98,16 @@ t_token	*tokenize(char *line)
 		else if (*line == '|' || *line == '<' || *line == '>')
 		{
 			add_token(&tokens, new_token(ft_strndup(line, 1), get_token_type(line)));
+			line++;
+		}
+		else if (!ft_strncmp(line, "&&", 2) || !ft_strncmp(line, "||", 2))
+		{
+			add_token(&tokens, new_token(ft_strndup(line, 2), get_token_type(line)));
+			line += 2;
+		}
+		else if (*line == '(' || *line == ')')
+		{
+			add_token(&tokens, new_token(ft_strndup(line, 1), *line == '(' ? LPAREN : RPAREN));
 			line++;
 		}
 		else
