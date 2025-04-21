@@ -39,8 +39,8 @@ typedef struct s_cmd {
 // Tokenizing
 t_token	*new_token(char *value, t_token_type type);
 t_token *tokenize(char *input);
-void add_token(t_token **list, t_token *new);
-char *extract_word(char **input);
+void    add_token(t_token **list, t_token *new);
+char    *extract_word(char **input);
 
 // Parsing
 t_cmd *parse_tokens(t_token *tokens);
