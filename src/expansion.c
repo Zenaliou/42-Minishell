@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/21 18:33:37 by niclee           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:40:04 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*expand_env(char *str, char **env) // $PATH, env
 	return (NULL);
 }
 
-void	expand_wildcards(t_token *tokens)
+void	expand_wildcards(t_token *tokens) // BONUS "*"
 {
 	
 }

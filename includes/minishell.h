@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <ctype.h>
 # include "libft.h"
+# include <dirent.h>
 
 typedef enum e_token_type {
     WORD,
