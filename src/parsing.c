@@ -75,60 +75,59 @@ t_cmd *parse_tokens(t_token *tokens)
 
 /*TESTING FUNCTION*/
 
+// void print_cmds(t_cmd *cmds)
+// {
+//     while (cmds)
+//     {
+//         printf("Command:\n");
+//         for (int i = 0; cmds->argv && cmds->argv[i]; i++)
+//             printf("  Arg[%d]: %s\n", i, cmds->argv[i]);
+//         if (cmds->infile)
+//             printf("  Input file: %s\n", cmds->infile);
+//         if (cmds->outfile)
+//             printf("  Output file: %s (append: %d)\n", cmds->outfile, cmds->append);
+//         if (cmds->heredoc)
+//             printf("  Heredoc limiter: %s\n", cmds->limiter);
+//         cmds = cmds->next;
+//     }
+// }
 
-void print_cmds(t_cmd *cmds)
-{
-    while (cmds)
-    {
-        printf("Command:\n");
-        for (int i = 0; cmds->argv && cmds->argv[i]; i++)
-            printf("  Arg[%d]: %s\n", i, cmds->argv[i]);
-        if (cmds->infile)
-            printf("  Input file: %s\n", cmds->infile);
-        if (cmds->outfile)
-            printf("  Output file: %s (append: %d)\n", cmds->outfile, cmds->append);
-        if (cmds->heredoc)
-            printf("  Heredoc limiter: %s\n", cmds->limiter);
-        cmds = cmds->next;
-    }
-}
 
+// int main(void)
+// {
+//     char line[1024];
+//     t_token *tokens;
+//     t_cmd *cmds;
 
-int main(void)
-{
-    char line[1024];
-    t_token *tokens;
-    t_cmd *cmds;
+//     printf("Enter a command line: ");
+//     if (fgets(line, sizeof(line), stdin) == NULL)
+//     {
+//         perror("Error reading input");
+//         return (1);
+//     }
+//     size_t len = strlen(line);
+//     if (len > 0 && line[len - 1] == '\n')
+//         line[len - 1] = '\0';
 
-    printf("Enter a command line: ");
-    if (fgets(line, sizeof(line), stdin) == NULL)
-    {
-        perror("Error reading input");
-        return (1);
-    }
-    size_t len = strlen(line);
-    if (len > 0 && line[len - 1] == '\n')
-        line[len - 1] = '\0';
+//     tokens = tokenize(line);
+//     if (!tokens)
+//     {
+//         printf("No tokens generated.\n");
+//         return (1);
+//     }
 
-    tokens = tokenize(line);
-    if (!tokens)
-    {
-        printf("No tokens generated.\n");
-        return (1);
-    }
+//     cmds = parse_tokens(tokens);
+//     if (!cmds)
+//     {
+//         printf("Error parsing tokens.\n");
+//         free_tokens(tokens);
+//         return (1);
+//     }
 
-    cmds = parse_tokens(tokens);
-    if (!cmds)
-    {
-        printf("Error parsing tokens.\n");
-        free_tokens(tokens);
-        return (1);
-    }
+//     // Print parsed commands (implement a print function for t_cmd)
+//     print_cmds(cmds);
 
-    // Print parsed commands (implement a print function for t_cmd)
-    print_cmds(cmds);
-
-    free_tokens(tokens);
-    free_cmds(cmds);
-    return (0);
-}
+//     free_tokens(tokens);
+//     free_cmds(cmds);
+//     return (0);
+// }
