@@ -31,7 +31,7 @@ $(LIBFT):
 	@echo "$(GREEN)✓ Compilation de libft réussie!$(NC)"
 
 $(NAME): $(OBJ_DIR) $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -lncurses -o $(NAME)
 	@echo "$(GREEN)✓ Compilation de $(NAME) réussie!$(NC)"
 
 $(OBJ_DIR):

@@ -57,6 +57,7 @@ void    add_cmd(t_cmd **cmds, t_cmd *new_cmd);
 void    expand_variables(t_token *tokens, char **env);
 char    *expand_env(char *str, char **env);
 void	expand_wildcards(t_token *tokens);
+int	    ft_match(const char *str, const char *pattern);
 
 // Execution (à compléter selon ton projet)
 void    execute_commands(t_cmd *cmds, char **env);

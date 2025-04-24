@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:40:04 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/21 14:21:53 by niclee           ###   ########.fr       */
+/*   Updated: 2025/04/24 19:27:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,29 @@ void	add_argument(t_cmd *cmd, char *arg)
 
 void add_cmd(t_cmd **cmds, t_cmd *new_cmd)
 {
-	t_cmd	*tmp;
-	if (!cmds || !new_cmd)
-		return ;
-	if (!cmds)
-		*cmds = new_cmd;
-	else
-	{
-		tmp = *cmds;
-		while(tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_cmd;
-	}
+    t_cmd   *tmp;
+    if (!cmds || !new_cmd)
+        return ;
+    if (!*cmds)
+        *cmds = new_cmd;
+    else
+    {
+        tmp = *cmds;
+        while(tmp->next)
+            tmp = tmp->next;
+        tmp->next = new_cmd;
+    }
+}
+
+char *extract_word(char **input)
+{
+    char *start = *input;
+    size_t len = 0;
+
+    while (**input && **input != ' ' && **input != '>' && **input != '<' && **input != '|')
+    {
+        (*input)++;
+        len++;
+    }
+    return ft_substr(start, 0, len);
 }
