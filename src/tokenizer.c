@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/24 19:26:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/04 13:56:56 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,15 @@ t_token *tokenize(char *input)
 {
     t_token *tokens = NULL;
     char *current = input;
+    t_quote_state quote_state = NO_QUOTE;
 
     while (*current)
     {
-        if (*current == ' ')
+        if (quote_state == NO_QUOTE && *current == ' ')
         {
             current++;
         }
-        else if (*current == '>')
+        else if (quote_state == NO_QUOTE && *current == '>')
         {
             if (*(current + 1) == '>')
             {
@@ -92,7 +93,7 @@ t_token *tokenize(char *input)
                 current++;
             }
         }
-        else if (*current == '<')
+        else if (quote_state == NO_QUOTE && *current == '<')
         {
             if (*(current + 1) == '<')
             {
@@ -105,16 +106,45 @@ t_token *tokenize(char *input)
                 current++;
             }
         }
-        else if (*current == '|')
+        else if (quote_state == NO_QUOTE && *current == '|')
         {
-            add_token(&tokens, new_token(ft_strdup("|"), PIPE));
+            if (*(current + 1) == '|')
+            {
+                add_token(&tokens, new_token(ft_strdup("||"), OR));
+                current += 2;
+            }
+            else
+            {
+                add_token(&tokens, new_token(ft_strdup("|"), PIPE));
+                current++;
+            }
+        }
+        else if (quote_state == NO_QUOTE && *current == '&' && *(current + 1) == '&')
+        {
+            add_token(&tokens, new_token(ft_strdup("&&"), AND));
+            current += 2;
+        }
+        else if (quote_state == NO_QUOTE && *current == '(')
+        {
+            add_token(&tokens, new_token(ft_strdup("("), LPAREN));
+            current++;
+        }
+        else if (quote_state == NO_QUOTE && *current == ')')
+        {
+            add_token(&tokens, new_token(ft_strdup(")"), RPAREN));
             current++;
         }
         else
         {
-            char *word = extract_word(&current);
+            char *word = extract_quoted_word(&current, &quote_state);
             add_token(&tokens, new_token(word, WORD));
         }
     }
-    return tokens;
+    if (quote_state != NO_QUOTE)
+    {
+        fprintf(stderr, "Syntax error: unclosed quote\n");
+        free_tokens(tokens);
+        return NULL;
+    }
+    return (tokens);
 }

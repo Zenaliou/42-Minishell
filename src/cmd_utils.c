@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:40:04 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/24 19:27:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/04 13:55:00 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,33 @@ char *extract_word(char **input)
         (*input)++;
         len++;
     }
+    return ft_substr(start, 0, len);
+}
+
+char	*extract_quoted_word(char **input, t_quote_state *state)
+{
+	char *start = *input;
+	size_t len = 0;
+	t_quote_state current = *state;
+	
+	while (**input)
+	{
+		if (current == NO_QUOTE && (**input == ' ' || **input == '>' || 
+            **input == '<' || **input == '|' || **input == '&' || 
+            **input == '(' || **input == ')'))
+            break;
+		if (current == NO_QUOTE && **input == '\'')
+            current = SINGLE_QUOTE;
+        else if (current == NO_QUOTE && **input == '\"')
+            current = DOUBLE_QUOTE;
+        else if (current == SINGLE_QUOTE && **input == '\'')
+            current = NO_QUOTE;
+        else if (current == DOUBLE_QUOTE && **input == '\"')
+            current = NO_QUOTE;
+        (*input)++;
+        len++;
+    }
+    
+    *state = current;
     return ft_substr(start, 0, len);
 }

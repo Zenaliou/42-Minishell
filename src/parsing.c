@@ -63,6 +63,41 @@ t_cmd *parse_tokens(t_token *tokens)
             }
             tokens = tokens->next;
         }
+        else if (tokens->type == LPAREN)
+        {
+            tokens = tokens->next; // Passer la parenthèse ouvrante
+            t_cmd *sub_cmd = parse_tokens(tokens);
+            if (!sub_cmd)
+            {
+                fprintf(stderr, "Syntax error: unmatched '('\n");
+                free_cmds(cmds);
+                return (NULL);
+            }
+            if (!current_cmd)
+                current_cmd = new_cmd();
+            current_cmd->left = sub_cmd; // Associer la sous-commande
+            while (tokens && tokens->type != RPAREN)
+                tokens = tokens->next; // Avancer jusqu'à la parenthèse fermante
+            if (!tokens)
+            {
+                fprintf(stderr, "Syntax error: unmatched '('\n");
+                free_cmds(cmds);
+                return (NULL);
+            }
+        }
+        else if (tokens->type == AND || tokens->type == OR)
+        {
+            if (!current_cmd)
+            {
+                fprintf(stderr, "Syntax error: unexpected '%s'\n", tokens->value);
+                free_cmds(cmds);
+                return (NULL);
+            }
+            t_cmd *new_cmds = new_cmd();
+            new_cmds->left = current_cmd;
+            new_cmds->append = (tokens->type == AND) ? 1 : 2; // 1 pour AND, 2 pour OR
+            current_cmd = new_cmds;
+        }
         tokens = tokens->next;
     }
     if (current_cmd)
