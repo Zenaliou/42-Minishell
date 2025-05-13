@@ -66,7 +66,7 @@ t_cmd *parse_tokens(t_token *tokens)
         else if (tokens->type == LPAREN)
         {
             tokens = tokens->next; // Passer la parenthèse ouvrante
-            t_cmd *sub_cmd = parse_tokens(tokens);
+            t_cmd *sub_cmd = parse_tokens(tokens); // Appel récursif pour analyser la sous-commande
             if (!sub_cmd)
             {
                 fprintf(stderr, "Syntax error: unmatched '('\n");
@@ -78,7 +78,7 @@ t_cmd *parse_tokens(t_token *tokens)
             current_cmd->left = sub_cmd; // Associer la sous-commande
             while (tokens && tokens->type != RPAREN)
                 tokens = tokens->next; // Avancer jusqu'à la parenthèse fermante
-            if (!tokens)
+            if (!tokens || tokens->type != RPAREN)
             {
                 fprintf(stderr, "Syntax error: unmatched '('\n");
                 free_cmds(cmds);
@@ -94,9 +94,42 @@ t_cmd *parse_tokens(t_token *tokens)
                 return (NULL);
             }
             t_cmd *new_cmds = new_cmd();
-            new_cmds->left = current_cmd;
-            new_cmds->append = (tokens->type == AND) ? 1 : 2; // 1 pour AND, 2 pour OR
+            new_cmds->left = current_cmd; // Associer la commande courante comme sous-commande gauche
+            new_cmds->append = (tokens->type == AND) ? 1 : 2; // 1 pour AND, 2 pour OR, norminette error
             current_cmd = new_cmds;
+
+            tokens = tokens->next; // Passer l'opérateur logique
+            if (tokens->type == LPAREN)
+            {
+                tokens = tokens->next; // Passer la parenthèse ouvrante
+                t_cmd *sub_cmd = parse_tokens(tokens); // Appel récursif pour analyser la sous-commande
+                if (!sub_cmd)
+                {
+                    fprintf(stderr, "Syntax error: unmatched '('\n");
+                    free_cmds(cmds);
+                    return (NULL);
+                }
+                current_cmd->right = sub_cmd; // Associer la sous-commande droite
+                while (tokens && tokens->type != RPAREN)
+                    tokens = tokens->next; // Avancer jusqu'à la parenthèse fermante
+                if (!tokens || tokens->type != RPAREN)
+                {
+                    fprintf(stderr, "Syntax error: unmatched '('\n");
+                    free_cmds(cmds);
+                    return (NULL);
+                }
+            }
+            else
+            {
+                t_cmd *right_cmd = parse_tokens(tokens); // Analyser la commande droite
+                if (!right_cmd)
+                {
+                    fprintf(stderr, "Syntax error: missing command after '%s'\n", tokens->value);
+                    free_cmds(cmds);
+                    return (NULL);
+                }
+                current_cmd->right = right_cmd;
+            }
         }
         tokens = tokens->next;
     }
