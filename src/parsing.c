@@ -1,5 +1,48 @@
 #include "../includes/minishell.h"
 
+/*
+Objectif:
+    - Analyser une liste de tokens et créer une liste de commandes.
+    - Gérer les redirections, les pipes et les opérateurs logiques.
+Retourne:
+    - Une liste chaînée de commandes (t_cmd).
+Fonctionnement général :
+    - Parcourt les tokens un par un.
+    - Gère les types suivants :
+    - `WORD` : arguments ou commandes simples.
+    - `PIPE` : fin d’une commande, enchaîne avec la suivante.
+    - `REDIR_*` : redirections (`>`, `<`, `>>`, `<<`) avec vérification que le fichier suit.
+    - `(` et `)` : gestion récursive des sous-commandes (sous-shells).
+    - `&&` / `||` : opérateurs logiques (conjonction / disjonction).
+Détail:
+    - Si le token est un `WORD` :
+        - Si `current_cmd` est NULL, on la crée.
+        - Ajoute le mot comme argument à la commande courante.
+
+    - Si le token est un `PIPE` :
+        - Syntax error si pas de commande en cours.
+        - Ajoute `current_cmd` à la liste globale, et recommence une nouvelle.
+
+    - Si le token est une redirection :
+        - Vérifie que le token suivant est bien un `WORD` (nom du fichier).
+        - Associe l'infile, outfile ou heredoc à la commande courante.
+        - Avance de deux tokens (opérateur + fichier).
+
+    - Si le token est une parenthèse ouvrante `(` :
+        - Appelle récursivement `parse_tokens()` pour parser la sous-commande.
+        - Associe le résultat à `current_cmd->left`.
+        - Avance les tokens jusqu’à la parenthèse fermante correspondante `)`.
+
+    - Si le token est `AND` ou `OR` :
+        - Syntax error si pas de commande à gauche.
+        - Crée une nouvelle commande logique (type AND/OR) avec la commande courante en `left`.
+        - Avance sur la droite (appel récursif).
+        - Associe la commande suivante à `right`.
+        - L'information AND/OR est stockée via le champ `append` (ce qui est un peu détourné !).
+
+    - A la fin, si une commande courante est en cours, elle est ajoutée à la liste.
+*/
+
 t_cmd *parse_tokens(t_token *tokens)
 {
     t_cmd   *cmds;

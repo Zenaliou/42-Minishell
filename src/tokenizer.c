@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/05/04 13:56:56 by niclee           ###   ########.fr       */
+/*   Updated: 2025/05/15 23:48:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,19 @@ t_token_type	get_token_type(char *s)
 		return (HEREDOC);
 	return (WORD);
 }
+
+/*
+Parametres:
+    input : chaîne de caractères entrée par l’utilisateur (ex : "ls -l | grep txt > out")
+Retourne:
+    Une liste chaînée de tokens représentant les mots, opérateurs et redirections
+Fonctionnalité:
+- Parcourt chaque caractère de la chaîne `input`.
+- Ignore les espaces en dehors des quotes.
+- Utilise `extract_quoted_word()` pour capturer les mots et chaînes entre guillemets.
+- Détecte les opérateurs (`|`, `||`, `>`, `>>`, `<`, `<<`, `&&`, etc.).
+- Gère l’état des guillemets via un `quote_state` pour respecter les strings entre `'` ou `"`.
+*/
 
 t_token *tokenize(char *input)
 {

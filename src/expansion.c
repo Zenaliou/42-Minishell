@@ -3,15 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/26 14:35:09 by niclee           ###   ########.fr       */
+/*   Updated: 2025/05/15 23:57:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+Fonctionnement:
+    - On parcourt la liste des tokens.
+    - Si le token est de type WORD et commence par '$', on appelle expand_env pour
+      récupérer la valeur de l'environnement.
+    - On remplace la valeur du token par la valeur récupérée.
+    - Si la valeur est NULL, on ne fait rien.
+    - On continue jusqu'à la fin de la liste.
+Note:
+    - La fonction expand_env doit être définie pour récupérer la valeur de l'environnement.
+    - On suppose que les tokens sont déjà créés et que la liste est correctement formée.
+    - On utilise free pour libérer la mémoire de l'ancienne valeur du token.
+    - On utilise ft_strdup pour créer une nouvelle chaîne de caractères pour la valeur du token.
+*/
 void	expand_variables(t_token *tokens, char **env)
 {
     t_token	*current;
@@ -33,6 +47,18 @@ void	expand_variables(t_token *tokens, char **env)
     }
 }
 
+/*
+Retourne:
+    - La valeur de l'environnement correspondant à la variable d'environnement donnée.
+    - NULL si la variable n'est pas trouvée.
+Fonctionnement:
+    - On parcourt la liste des variables d'environnement.
+    - On compare la variable d'environnement avec la chaîne donnée.
+    - Si on trouve une correspondance, on retourne la valeur de l'environnement.
+    - Sinon, on continue jusqu'à la fin de la liste.
+    - Si aucune correspondance n'est trouvée, on retourne NULL.
+*/
+
 char	*expand_env(char *str, char **env)
 {
 	int i;
@@ -50,6 +76,21 @@ char	*expand_env(char *str, char **env)
 	}
 	return (NULL);
 }
+
+/*
+Fonctionnement:
+    - On parcourt la liste des tokens.
+    - Si le token est de type WORD et contient un '*', on ouvre le répertoire courant.
+    - On lit chaque entrée du répertoire et on compare avec le motif du token.
+    - Si une correspondance est trouvée, on ajoute le nom de fichier à une nouvelle liste de tokens.
+    - On remplace le token d'origine par la nouvelle liste de tokens.
+    - On libère la mémoire de l'ancienne valeur du token.
+    - On continue jusqu'à la fin de la liste.
+Note:
+    - On suppose que la fonction ft_match est définie pour comparer les chaînes avec le motif.
+    - On utilise free pour libérer la mémoire de l'ancienne valeur du token.
+    - On utilise ft_strdup pour créer une nouvelle chaîne de caractères pour la valeur du token.
+*/
 
 void	expand_wildcards(t_token *tokens)
 {
@@ -86,6 +127,19 @@ void	expand_wildcards(t_token *tokens)
         current = current->next;
     }
 }
+
+/*
+Fonctionnement:
+    - On compare la chaîne str avec le motif pattern.
+    - Si le motif est vide, on retourne 1 si la chaîne est aussi vide.
+    - Si le motif commence par '*', on vérifie si le reste du motif correspond à la chaîne
+      ou si la chaîne correspond au reste du motif.
+    - Si les caractères correspondent, on continue à comparer les caractères suivants.
+    - Sinon, on retourne 0.
+Note:
+    - On utilise la récursion pour comparer les caractères.
+    - On retourne 1 si une correspondance est trouvée, sinon 0.
+*/
 
 int	ft_match(const char *str, const char *pattern)
 {
