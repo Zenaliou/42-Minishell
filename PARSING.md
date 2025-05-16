@@ -1,4 +1,4 @@
-Arbre utilisé
+Arbre utilisé: AST
 Chaque nœud de l’arbre représente une commande ou une opération (|, &&, ||, etc...)
 
 exemple visuel

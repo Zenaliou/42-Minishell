@@ -14,8 +14,8 @@
 
 typedef enum e_token_type {
     WORD,
-    PIPE,
-    REDIR_IN,
+    PIPE, 
+    REDIR_IN, 
     REDIR_OUT,
     REDIR_APPEND,
     HEREDOC,
