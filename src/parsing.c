@@ -112,7 +112,7 @@ t_cmd *parse_tokens(t_token *tokens)
             t_cmd *sub_cmd = parse_tokens(tokens); // Appel récursif pour analyser la sous-commande
             if (!sub_cmd)
             {
-                fprintf(stderr, "Syntax error: unmatched '('\n");
+                fprintf(stderr, "Syntax error: unmatched '('\n"); // forbidden function
                 free_cmds(cmds);
                 return (NULL);
             }
@@ -123,7 +123,7 @@ t_cmd *parse_tokens(t_token *tokens)
                 tokens = tokens->next; // Avancer jusqu'à la parenthèse fermante
             if (!tokens || tokens->type != RPAREN)
             {
-                fprintf(stderr, "Syntax error: unmatched '('\n");
+                fprintf(stderr, "Syntax error: unmatched '('\n"); // forbidden function
                 free_cmds(cmds);
                 return (NULL);
             }
@@ -132,7 +132,7 @@ t_cmd *parse_tokens(t_token *tokens)
         {
             if (!current_cmd)
             {
-                fprintf(stderr, "Syntax error: unexpected '%s'\n", tokens->value);
+                fprintf(stderr, "Syntax error: unexpected '%s'\n", tokens->value); // forbidden function
                 free_cmds(cmds);
                 return (NULL);
             }
@@ -148,7 +148,7 @@ t_cmd *parse_tokens(t_token *tokens)
                 t_cmd *sub_cmd = parse_tokens(tokens); // Appel récursif pour analyser la sous-commande
                 if (!sub_cmd)
                 {
-                    fprintf(stderr, "Syntax error: unmatched '('\n");
+                    fprintf(stderr, "Syntax error: unmatched '('\n"); // forbidden function
                     free_cmds(cmds);
                     return (NULL);
                 }
@@ -167,7 +167,7 @@ t_cmd *parse_tokens(t_token *tokens)
                 t_cmd *right_cmd = parse_tokens(tokens); // Analyser la commande droite
                 if (!right_cmd)
                 {
-                    fprintf(stderr, "Syntax error: missing command after '%s'\n", tokens->value);
+                    fprintf(stderr, "Syntax error: missing command after '%s'\n", tokens->value); // forbidden function
                     free_cmds(cmds);
                     return (NULL);
                 }

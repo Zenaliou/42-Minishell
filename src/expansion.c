@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/05/15 23:57:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:43:04 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ Note:
 */
 void	expand_variables(t_token *tokens, char **env)
 {
-    t_token	*current;
-    char	*expanded_value;
+    t_token *current = tokens;
+    char *expanded_value;
 
-    current = tokens;
     while (current)
     {
-        if (current->type == WORD && current->value[0] == '$')
+        if (current->type == WORD)
         {
-            expanded_value = expand_env(current->value + 1, env);
+            // Ici, tu pourrais stocker l'info "quoted" dans le token si tu veux gérer les quotes simples
+            expanded_value = expand_all_vars(current->value, env);
             if (expanded_value)
             {
                 free(current->value);
@@ -150,4 +150,66 @@ int	ft_match(const char *str, const char *pattern)
     if (*str == *pattern)
         return (ft_match(str + 1, pattern + 1));
     return (0);
+}
+
+/*
+Objectif:
+    - Prendre un string qui peut contenir des variable env (ex: "hello $USER $PATH")
+    - Remplacer chaque variable $VAR par sa valeur trouvee dans env
+    - Retourner la nouvelle chaine avec toutes les variable expansees
+
+Fontionnement:
+    - Cree une chaine vide qui va accumuler le resultat final
+    - Parcour chaque caractere de la chaine d'entree avec un pointeur
+    - Si le caractere courant est $ et que le suivant est unelettre, chiffre ou _
+        - Avance le pointeur apres le $
+        - Repere le debut du nom de la variable
+        - Avance jusqu'a la fin du nom de la variable
+        - Extrait le nom de la variable avec ft_substr
+        - Cherche la valeur de la variable dans env
+        - Si la variable existe, ajout dans result
+    - Si ce n'est pas une variable, ajout simplement le caractere courant a result
+
+Detail:
+    - A chaque a jout a result, la memoire precedente est liberee pour eviter les fuites
+    - Pas d'expansion pour $?
+    - Ne gere pas les accolades (${VAR})
+*/
+
+char *expand_all_vars(const char *str, char **env)
+{
+    char *result = ft_calloc(1, 1);
+    const char *p = str;
+    const char *start;
+    char *tmp;
+    char *var;
+    while (*p)
+    {
+        if (*p == '$' && (ft_isalnum(*(p+1)) || *(p+1) == '_'))
+        {
+            p++;
+            start = p;
+            while (ft_isalnum(*p) || *p == '_')
+                p++;
+            var = ft_substr(start, 0, p - start);
+            char *val = expand_env(var, env);
+            if (val)
+            {
+                tmp = ft_strjoin(result, val);
+                free(result);
+                result = tmp;
+                free(val);
+            }
+            free(var);
+        }
+        else
+        {
+            char buf[2] = {*p, 0};
+            tmp = ft_strjoin(result, buf);
+            free(result);
+            result = tmp;
+            p++;
+        }
+    }
+    return result;
 }

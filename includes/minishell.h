@@ -69,6 +69,7 @@ void    expand_variables(t_token *tokens, char **env);
 char    *expand_env(char *str, char **env);
 void	expand_wildcards(t_token *tokens);
 int	    ft_match(const char *str, const char *pattern);
+char    *expand_all_vars(const char *str, char **env);
 
 // Execution (à compléter selon ton projet)
 void    execute_commands(t_cmd *cmds, char **env);

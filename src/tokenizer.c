@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 10:07:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/05/15 23:48:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:00:43 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_token *tokenize(char *input)
     }
     if (quote_state != NO_QUOTE)
     {
-        fprintf(stderr, "Syntax error: unclosed quote\n");
+        fprintf(stderr, "Syntax error: unclosed quote\n"); // forbidden function
         free_tokens(tokens);
         return NULL;
     }
