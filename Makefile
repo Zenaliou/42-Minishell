@@ -9,8 +9,8 @@ INCLUDE_DIR = includes/
 LIBFT_DIR = libft/
 
 #SOURCES
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+SRCS = $(shell find $(SRC_DIR) -name '*.c')
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS:$(SRC_DIR)/%=%))
 
 #NAME
 NAME = minishell

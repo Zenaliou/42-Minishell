@@ -22,7 +22,7 @@
 //         expand_wildcards(tokens);
 //         expand_variables(tokens, envp);
 //         cmds = parse_tokens(tokens);
-//         execute_commands(cmds, envp);
+//         // execute_commands(cmds, envp);
 //         free_tokens(tokens);
 //         free_cmds(cmds);
 //         free(line);
