@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/05/16 11:43:04 by niclee           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:50:54 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ char *expand_all_vars(const char *str, char **env)
     const char *start;
     char *tmp;
     char *var;
+    char buf;
     while (*p)
     {
         if (*p == '$' && (ft_isalnum(*(p+1)) || *(p+1) == '_'))
@@ -204,8 +205,8 @@ char *expand_all_vars(const char *str, char **env)
         }
         else
         {
-            char buf[2] = {*p, 0};
-            tmp = ft_strjoin(result, buf);
+            buf = *p;
+            tmp = ft_strjoin(result, (char[]){buf, 0});
             free(result);
             result = tmp;
             p++;
