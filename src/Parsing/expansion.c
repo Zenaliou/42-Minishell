@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/05/16 12:07:52 by niclee           ###   ########.fr       */
+/*   Updated: 2025/05/18 15:06:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,26 @@ Note:
 */
 void	expand_variables(t_token *tokens, char **env)
 {
-    t_token *current = tokens;
-    char *expanded_value;
+	t_token	*current;
+	char	*expanded_value;
 
-    while (current)
-    {
-        if (current->type == WORD)
-        {
-            // Ici, tu pourrais stocker l'info "quoted" dans le token si tu veux gérer les quotes simples
-            expanded_value = expand_all_vars(current->value, env);
-            if (expanded_value)
-            {
-                free(current->value);
-                current->value = expanded_value;
-            }
-        }
-        current = current->next;
-    }
+	current = tokens;
+	while (current)
+	{
+		if (current->type == WORD && current->value[0] == '$')
+		{
+			if (ft_strcmp(current->value, "$?") == 0)
+				expanded_value = ft_itoa(sig_value);
+			else
+				expanded_value = expand_env(current->value + 1, env);
+			if (expanded_value)
+			{
+				free(current->value);
+				current->value = expanded_value;
+			}
+		}
+		current = current->next;
+	}
 }
 
 /*
