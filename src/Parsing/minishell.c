@@ -1,4 +1,42 @@
-#include "minishell.h"
+// #include "minishell.h"
+#include "../includes/minishell.h"
+
+void	parsing_n_expand(t_token **tokens, char *line, char **env, t_cmd **cmds)
+{
+	*tokens = tokenize(line);
+	expand_wildcards(*tokens);
+	expand_variables(*tokens, env);
+	*cmds = parse_tokens(*tokens);
+	printf("\n=== Résultat du parsing ===\n");		//DEBUG
+	print_cmds(*cmds);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	char *line;
+	t_token *tokens;
+	t_cmd *cmds;
+
+	(void)argc;
+	(void)argv;
+	sig_handler();
+	while (1)
+	{
+		line = readline(prompt);	//texte trop long donc dans le .h
+		if (!line)
+			return (printf("exit\n"), free(line), 0);		//raccourci
+		if (*line)
+			add_history(line);
+		parsing_n_expand(&tokens, line, envp, &cmds);	//	fonction pour reduire la taille du main pour + de lisibilité
+		// exec_handler(cmds, envp);
+		free_tokens(tokens);
+		free_cmds(cmds);
+		free(line);
+	}
+	free(line);
+	rl_clear_history();
+	return 0;
+}
 
 // int main(int argc, char **argv, char **envp)
 // {
@@ -22,7 +60,9 @@
 //         expand_wildcards(tokens);
 //         expand_variables(tokens, envp);
 //         cmds = parse_tokens(tokens);
-//         // execute_commands(cmds, envp);
+//         printf("\n=== Résultat du parsing ===\n");
+//         print_cmds(cmds);
+//         execute_commands(cmds, envp);
 //         free_tokens(tokens);
 //         free_cmds(cmds);
 //         free(line);

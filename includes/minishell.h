@@ -11,6 +11,14 @@
 # include <ctype.h>
 # include "libft.h"
 # include <dirent.h>
+# include <signal.h>
+# include <stdatomic.h>
+
+# define prompt "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n~> \e[1;35m$\e[0m "
+# define prompt2 "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n"
+
+extern volatile sig_atomic_t sig_value; // Pour gérer les signaux ctrl + c, ctrl+D et ctrl+\ /
+
 
 typedef enum e_token_type {
     WORD,
@@ -77,5 +85,14 @@ void    execute_commands(t_cmd *cmds, char **env);
 // Memory
 void    free_tokens(t_token *tokens);
 void    free_cmds(t_cmd *cmds);
+
+// DEBUG
+void print_cmds(t_cmd *cmds);
+
+
+// SIGNALS
+void    sig_handler(void);
+// void    sig_dealer(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
+
 
 #endif
