@@ -12,16 +12,17 @@
 
 #include "../includes/minishell.h"
 
-int builtin_echo(char **args)
+int	builtin_echo(char **args)
 {
-	int i;
-	int n_option;
+	int	i;
+	int	j;
+	int	n_option;
 
 	n_option = 0;
 	i = 1;
 	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		int j = 1;
+		j = 1;
 		while (args[i][j] == 'n')
 			j++;
 		if (args[i][j] != '\0')
