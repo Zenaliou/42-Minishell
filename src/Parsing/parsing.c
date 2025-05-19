@@ -50,10 +50,8 @@ t_cmd *parse_tokens(t_token *tokens)
 
     cmds = NULL;
     current_cmd = NULL;
-
     if (!tokens)
         return (NULL);
-        
     while (tokens)
     {
         if (tokens->type == WORD)
@@ -140,7 +138,6 @@ t_cmd *parse_tokens(t_token *tokens)
             new_cmds->left = current_cmd; // Associer la commande courante comme sous-commande gauche
             new_cmds->append = (tokens->type == AND) ? 1 : 2; // 1 pour AND, 2 pour OR, norminette error
             current_cmd = new_cmds;
-
             tokens = tokens->next; // Passer l'opérateur logique
             if (tokens->type == LPAREN)
             {
