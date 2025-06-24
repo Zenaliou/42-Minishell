@@ -16,24 +16,21 @@ volatile sig_atomic_t sig_value = 0;
 
 void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the value of the signal to the global variable to catch them
 {
-	printf("%d\n", info->si_pid);
-	printf("signum: %d\n", signum);
+	(void)info;
 	(void)context;
 	if (signum == SIGINT)
 	{
 		sig_value = 130;
+
+		printf("\n");
 		printf("\n");
 		rl_on_new_line();
-		printf("\n");
-		rl_replace_line("", 0);
 		printf("%s", prompt2);
-		rl_redisplay();
 		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
 		sig_value = SIGQUIT;
-	else if (signum == SIGSTOP)
-		sig_value = SIGSTOP;
 }
 
 void    sig_handler(void)

@@ -16,23 +16,27 @@ int main(int argc, char **argv, char **envp)
 	char *line;
 	t_token *tokens;
 	t_cmd *cmds;
+	t_env	*envi;
 
 	(void)argc;
 	(void)argv;
+	envi = NULL;
+	fakeenv(envp, &envi);
 	sig_handler();
 	while (1)
 	{
 		line = readline(prompt);	//texte trop long donc dans le .h
 		if (!line)
-			return (printf("exit\n"), free(line), 0);		//raccourci
+			return (printf("exit\n"), free(line), free_env(envi), 0);		//raccourci
 		if (*line)
 			add_history(line);
 		parsing_n_expand(&tokens, line, envp, &cmds);	//	fonction pour reduire la taille du main pour + de lisibilité
-		// exec_handler(cmds, envp);
 		free_tokens(tokens);
-		free_cmds(cmds);
 		free(line);
+		exec_handler(cmds, envp, envi);
+		free_cmds(cmds);
 	}
+	free_env(envi);
 	free(line);
 	rl_clear_history();
 	return 0;

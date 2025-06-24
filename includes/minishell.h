@@ -13,12 +13,13 @@
 # include <dirent.h>
 # include <signal.h>
 # include <stdatomic.h>
+# include <sys/wait.h>
+# include <limits.h>
 
 # define prompt "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n~> \e[1;35m$\e[0m "
 # define prompt2 "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n"
 
 extern volatile sig_atomic_t sig_value; // Pour gérer les signaux ctrl + c, ctrl+D et ctrl+\ /
-
 
 typedef enum e_token_type {
     WORD,
@@ -59,6 +60,11 @@ typedef struct s_cmd {
     struct s_cmd *next;
 } t_cmd;
 
+typedef struct s_envi {
+	char			*full;
+	struct s_envi	*next;
+} t_env;
+
 // Tokenizing
 t_token	*new_token(char *value, t_token_type type);
 t_token *tokenize(char *input);
@@ -79,13 +85,25 @@ void	expand_wildcards(t_token *tokens);
 int	    ft_match(const char *str, const char *pattern);
 char    *expand_all_vars(const char *str, char **env);
 
-// Execution (à compléter selon ton projet)
-void    execute_commands(t_cmd *cmds, char **env);
 
 // Memory
 void    free_tokens(t_token *tokens);
 void    free_cmds(t_cmd *cmds);
+void    freetab(char **str);
+void	free_env(t_env *env);
 
+// Execution (à compléter selon ton projet)
+int exec_handler(t_cmd *cmds, char **env, t_env *envi);
+	// BUILT_IN
+int	builtin_echo(char **args);
+void	builtin_pwd(void);
+void	builtin_cd(char **argv);
+void	builtin_env(t_env *envi);
+
+// fake env
+int	nodeend(t_env **head, char	*env);
+int nodenewhead(t_env **head, char *envline);
+int	fakeenv(char **env, t_env **envi);
 // DEBUG
 void print_cmds(t_cmd *cmds);
 

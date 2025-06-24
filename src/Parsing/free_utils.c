@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:35:12 by niclee            #+#    #+#             */
-/*   Updated: 2025/04/17 12:38:46 by niclee           ###   ########.fr       */
+/*   Updated: 2025/06/17 17:42:17 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,31 @@ void	free_tokens(t_token *tokens)
 		free(tmp);
 	}
 }
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+	
+	tmp = NULL;
+	while (env)
+	{
+		tmp = env;
+		env = env->next;
+		if (tmp->full)
+			free(tmp->full);
+		free(tmp);
+	}
+}
+
+void	freetab(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+}
+
