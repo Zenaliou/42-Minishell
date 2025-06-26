@@ -20,8 +20,7 @@ void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the valu
 	(void)context;
 	if (signum == SIGINT)
 	{
-		sig_value = 130;
-
+		sig_value = 128+SIGINT;
 		printf("\n");
 		printf("\n");
 		rl_on_new_line();
@@ -44,6 +43,6 @@ void    sig_handler(void)
 		return ;
 	if (sigaction(SIGQUIT, &signals, NULL) == -1)
 		return ;
-	if (sigaction(SIGSTOP, &signals, NULL) == -1)
-		return ;
+	// if (sigaction(SIGSTOP, &signals, NULL) == -1)
+		// return ;
 }

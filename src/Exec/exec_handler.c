@@ -135,8 +135,8 @@ void	builtin_finder(char **argv, t_env **envi, int i)
 		builtin_pwd();
 	// else if (i == 4)
 		// builtin_export(envi);
-	// else if (i == 5)
-		// builtin_unset(argv, &envi);
+	else if (i == 5)
+		builtin_unset(argv, envi);
 	else if (i == 6)
 		builtin_env(*envi);
 	// else if (i == 7)
@@ -176,7 +176,11 @@ pid_t	processing(char	*path, char **env, t_cmd *cmds, t_env *envi)
 	// 	return (-1);
 	pid = -1;
 	stat = 0;
-	if ((is_builtin(cmds->argv[0]) == 2) || (is_builtin(cmds->argv[0]) == 4) || (is_builtin(cmds->argv[0]) == 5) || (is_builtin(cmds->argv[0]) == 7)) // 2 == cd , 4 == export, 5 = unset, 7 == exit
+	if (!path)
+		return -1;
+	if ((is_builtin(cmds->argv[0]) == 2) || (is_builtin(cmds->argv[0]) == 4) 
+		|| (is_builtin(cmds->argv[0]) == 5) || (is_builtin(cmds->argv[0]) == 7)) 
+		// 2 == cd , 4 == export, 5 = unset, 7 == exit
 		return (builtin_finder(cmds->argv, &envi, is_builtin(cmds->argv[0])), pid);
 	pid = fork();
 	if (pid < 0)
@@ -220,7 +224,7 @@ pid_t	processing(char	*path, char **env, t_cmd *cmds, t_env *envi)
 				// free_env(&envi);
 				// if (access(cmds->argv[0], F_OK | X_OK) != 0)
 					// free(path);
-			exit(0);
+			exit(sig_value);
 			// }
 			// if (access(cmds->argv[0], F_OK | X_OK) != 0 && is_builtin(cmds->argv[0]) > 0)
 				// free(path);
@@ -246,6 +250,9 @@ pid_t	processing(char	*path, char **env, t_cmd *cmds, t_env *envi)
 	return (pid);
 }
 
+
+// || PREMIER FONCTIONNEL A PRINT, SI COMMAND NON EXISTANTE RETURN ERROR D'EXEC TT DE MM
+// && TT FONCTIONNEL OU RIEN; TOUT SUR LA SORTIE DEMANDE SI CA MARCHE OU RETURN NOT FOUND
 int	process_board(t_cmd *cmds, t_env *envi, char **env)
 {
 	// t_cmd	*temp;
@@ -258,11 +265,17 @@ int	process_board(t_cmd *cmds, t_env *envi, char **env)
 	while (cmds)
 	{
 		path = pathing(cmds, envi);
-		printf("%s\n", path);
+		printf("path processboard 263 %s\n", path);
 		pid = processing(path, env, cmds, envi);
 		// if (access(cmds->argv[0], F_OK | X_OK) != 0 && path)
 			free(path);
-		cmds = cmds->next;
+		// if (cmds->next)
+			cmds = cmds->next;
+		// else if (cmds->left)
+			// cmds = cmds->left;
+		// else if (cmds->right)
+			// cmds = cmds->right;
+		
 	}
 	
 	printf("-\tend process %d \n", pid);
