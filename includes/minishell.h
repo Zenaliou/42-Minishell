@@ -97,9 +97,9 @@ int exec_handler(t_cmd *cmds, char **env, t_env *envi);
 	// BUILT_IN
 int	builtin_echo(char **args);
 void	builtin_pwd(void);
-void	builtin_cd(char **argv);
+void	builtin_cd(char **argv, t_env *envi);
 void	builtin_env(t_env *envi);
-//void	builtin_unset(char **argv, t_env **envi); // BANCAL DE FOU
+void	builtin_unset(char **argv, t_env **envi); // BANCAL DE FOU
 
 // fake env
 int	nodeend(t_env **head, char	*env);
@@ -111,7 +111,7 @@ void print_cmds(t_cmd *cmds);
 
 // SIGNALS
 void    sig_handler(void);
-// void    sig_dealer(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
+void    sig_dealer(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
 
 
 #endif

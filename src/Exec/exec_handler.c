@@ -66,7 +66,6 @@ char	**getenvmini(t_env *env)
 	envd = ft_split(path+i, ':');
 	if (!envd)
 		return (free(path), NULL);
-	// free(path);
 	return (envd);
 }
 
@@ -95,7 +94,7 @@ char	*pathchecker(char *cmd, t_env *env)
 		i++;
 	}
 	freetab(envsym);
-	printf("pathchecker return (copy): %s\n", copy);
+	printf("l97 exec_handler\t pathchecker return (copy): %s\n", copy);
 	return (copy);
 }
 
@@ -121,7 +120,7 @@ char	*pathing(t_cmd *cmds, t_env *env)
 	return (path);
 }
 
-void	builtin_finder(char **argv, t_env **envi, int i)
+void	builtin_finder(char **argv, t_env **envi, int i, t_cmd **cmds)
 {
 	(void)envi;
 	if (!argv)
@@ -130,7 +129,7 @@ void	builtin_finder(char **argv, t_env **envi, int i)
 	if (i == 1)
 		builtin_echo(argv);
 	else if (i == 2)
-		builtin_cd(argv);
+		builtin_cd(argv, *envi);
 	else if (i == 3)
 		builtin_pwd();
 	// else if (i == 4)
@@ -139,8 +138,9 @@ void	builtin_finder(char **argv, t_env **envi, int i)
 		builtin_unset(argv, envi);
 	else if (i == 6)
 		builtin_env(*envi);
+	(void)cmds;
 	// else if (i == 7)
-	
+	//	builtin_exit(cmds);	
 	
 }
 
@@ -181,7 +181,7 @@ pid_t	processing(char	*path, char **env, t_cmd *cmds, t_env *envi)
 	if ((is_builtin(cmds->argv[0]) == 2) || (is_builtin(cmds->argv[0]) == 4) 
 		|| (is_builtin(cmds->argv[0]) == 5) || (is_builtin(cmds->argv[0]) == 7)) 
 		// 2 == cd , 4 == export, 5 = unset, 7 == exit
-		return (builtin_finder(cmds->argv, &envi, is_builtin(cmds->argv[0])), pid);
+		return (builtin_finder(cmds->argv, &envi, is_builtin(cmds->argv[0]), &cmds), pid);
 	pid = fork();
 	if (pid < 0)
 		return (-1);
@@ -200,7 +200,7 @@ pid_t	processing(char	*path, char **env, t_cmd *cmds, t_env *envi)
 			if (is_builtin(cmds->argv[0]) == 1 || is_builtin(cmds->argv[0]) == 3 || is_builtin(cmds->argv[0]) == 6) // 1 echo 3 pwd 6 env
 			{
 				printf("builtined\n\n\n");
-				builtin_finder(cmds->argv, &envi, is_builtin(cmds->argv[0]));
+				builtin_finder(cmds->argv, &envi, is_builtin(cmds->argv[0]), &cmds);
 				free_cmds(cmds);
 				if (envi)
 					free_env(envi);
@@ -297,3 +297,5 @@ int exec_handler(t_cmd *cmds, char **env, t_env *envi)
 	// free_env(envi);
 	return (1);
 }
+
+// FAIRE CD AVEC LE CD NEUTRE SUR ~
