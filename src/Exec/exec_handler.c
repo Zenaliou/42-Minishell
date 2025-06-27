@@ -138,9 +138,9 @@ void	builtin_finder(char **argv, t_env **envi, int i, t_cmd **cmds)
 		builtin_unset(argv, envi);
 	else if (i == 6)
 		builtin_env(*envi);
+	else if (i == 7)
+		builtin_exit(argv);	
 	(void)cmds;
-	// else if (i == 7)
-	//	builtin_exit(cmds);	
 	
 }
 

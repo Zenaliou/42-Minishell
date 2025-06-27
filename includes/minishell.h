@@ -94,12 +94,14 @@ void	free_env(t_env *env);
 
 // Execution (à compléter selon ton projet)
 int exec_handler(t_cmd *cmds, char **env, t_env *envi);
+int	process_board(t_cmd *cmds, t_env *envi, char **env);
 	// BUILT_IN
-int	builtin_echo(char **args);
+int	    builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **argv, t_env *envi);
 void	builtin_env(t_env *envi);
 void	builtin_unset(char **argv, t_env **envi); // BANCAL DE FOU
+int	    builtin_exit(char **args);
 
 // fake env
 int	nodeend(t_env **head, char	*env);
