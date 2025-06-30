@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:35:12 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 16:11:58 by niclee           ###   ########.fr       */
+/*   Updated: 2025/06/30 18:09:18 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ static void	free_argv(char **argv)
 		return ;
 	i = 0;
 	while (argv[i])
-		free(argv[i++]);
+	{
+		printf("arg freed %s\n", argv[i]);
+		free(argv[i]);
+		i++;
+	}
 	free(argv);
 }
 

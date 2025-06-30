@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:40:04 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 16:14:41 by niclee           ###   ########.fr       */
+/*   Updated: 2025/06/30 18:37:31 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd	*new_cmd(void)
 	cmd->next = NULL;
 	cmd->left = NULL;
 	cmd->right = NULL;
+	cmd->pid = -1;
 	return (cmd);
 }
 
