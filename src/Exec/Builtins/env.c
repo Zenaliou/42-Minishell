@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:45:19 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/06/27 17:03:29 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:58:20 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,25 @@ int	search_env(char *line, char *baseline)
 void	builtin_unset(char **argv, t_env **envi)
 {
 	t_env	*tmp;
-	// t_env	*aaa;
 	t_env 	**head;
 	//faire l'env de base de env -i avec pwd shlvl etc...
 	tmp = NULL;
-	// aaa = NULL;
 	head = envi;
 	if (!head)
 		return ;
-	// if (search_env(argv[1], tmp->full == 1))
-	// {
-	// 	*envi = (*envi)->next;
-	// 	free(tmp->full);
-	// 	free(tmp);
-	// 	return ;
-	// }
+
 	(void)argv;
 	while ((*head)->next != NULL && search_env(argv[1], (*head)->next->full) == -1)
 		head = &(*head)->next;
 	head = &(*head)->next;
-	printf("deleted node = %s\n", (*head)->full);
-	if (!*head && search_env(argv[1], (*head)->full) == 1)
+	printf("deleted node = %s\n", (*head)->next->full);
+	if (*head && search_env(argv[1], (*head)->full) == 1)
 	{
-		
+		tmp = *head;
+		printf("deleted node = %s\n", (*head)->full);
+		*head = tmp->next;
+		free(tmp->full);
+		free(tmp);
 	}
 	return ;
 }
