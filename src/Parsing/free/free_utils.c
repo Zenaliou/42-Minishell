@@ -3,40 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:35:12 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/26 15:19:20 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:11:58 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void	free_argv(char **argv)
+{
+	int	i;
+
+	if (!argv)
+		return ;
+	i = 0;
+	while (argv[i])
+		free(argv[i++]);
+	free(argv);
+}
+
 void	free_cmds(t_cmd *cmds)
 {
 	t_cmd	*tmp;
-	int		i;
 
 	while (cmds)
-    {
+	{
 		tmp = cmds;
 		cmds = cmds->next;
-		if (tmp->argv)
-		{
-			i = 0;
-			while (tmp->argv[i])
-				free(tmp->argv[i++]);
-			free(tmp->argv);
-		}
+		free_argv(tmp->argv);
 		if (tmp->infile)
 			free(tmp->infile);
 		if (tmp->outfile)
 			free(tmp->outfile);
 		if (tmp->limiter)
 			free(tmp->limiter);
-		if (tmp->left != NULL)
+		if (tmp->left)
 			free_cmds(tmp->left);
-		if (tmp->right != NULL)
+		if (tmp->right)
 			free_cmds(tmp->right);
 		free(tmp);
 	}
@@ -59,7 +64,7 @@ void	free_tokens(t_token *tokens)
 void	free_env(t_env *env)
 {
 	t_env	*tmp;
-	
+
 	tmp = NULL;
 	while (env)
 	{
@@ -82,4 +87,3 @@ void	freetab(char **str)
 		free(str[i++]);
 	free(str);
 }
-

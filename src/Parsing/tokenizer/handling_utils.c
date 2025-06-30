@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handling_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 15:12:52 by niclee            #+#    #+#             */
+/*   Updated: 2025/06/30 15:18:34 by niclee           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+char	*handle_symbol(char *current, t_token **tokens, t_quote_state *qs)
+{
+	if (*qs == NO_QUOTE && (*current == '|' || *current == '&'))
+		return (handle_pipe_and_or(current, tokens));
+	if (*qs == NO_QUOTE && (*current == '(' || *current == ')'))
+		return (handle_parens(current, tokens));
+	return (handle_word(current, tokens, qs));
+}
+
+char	*handle_pipe_and_or(char *current, t_token **tokens)
+{
+	if (*current == '|' && *(current + 1) == '|')
+	{
+		add_token(tokens, new_token(ft_strdup("||"), OR));
+		return (current + 2);
+	}
+	if (*current == '|')
+	{
+		add_token(tokens, new_token(ft_strdup("|"), PIPE));
+		return (current + 1);
+	}
+	if (*current == '&' && *(current + 1) == '&')
+	{
+		add_token(tokens, new_token(ft_strdup("&&"), AND));
+		return (current + 2);
+	}
+	return (current);
+}
+
+char	*handle_parens(char *current, t_token **tokens)
+{
+	if (*current == '(')
+	{
+		add_token(tokens, new_token(ft_strdup("("), LPAREN));
+		return (current + 1);
+	}
+	if (*current == ')')
+	{
+		add_token(tokens, new_token(ft_strdup(")"), RPAREN));
+		return (current + 1);
+	}
+	return (current);
+}
+
+char	*handle_word(char *current, t_token **tokens, t_quote_state *qs)
+{
+	char	*word;
+
+	word = extract_quoted_word(&current, qs);
+	add_token(tokens, new_token(word, WORD));
+	return (current);
+}
+
+t_token	*handle_unclosed_quote(t_token *tokens)
+{
+	ft_putstr_fd("Syntax error: unclosed quote\n", STDERR_FILENO);
+	free_tokens(tokens);
+	return (NULL);
+}

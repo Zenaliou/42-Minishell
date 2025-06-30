@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
+/*   Updated: 2025/06/30 14:57:35 by niclee           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // #include "minishell.h"
 #include "../includes/minishell.h"
 
@@ -7,15 +19,15 @@ void	parsing_n_expand(t_token **tokens, char *line, char **env, t_cmd **cmds)
 	expand_wildcards(*tokens);
 	expand_variables(*tokens, env);
 	*cmds = parse_tokens(*tokens);
-	printf("\n=== Résultat du parsing ===\n");		//DEBUG
+	printf("\n=== Résultat du parsing ===\n"); // DEBUG
 	print_cmds(*cmds);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	char *line;
-	t_token *tokens;
-	t_cmd *cmds;
+	char	*line;
+	t_token	*tokens;
+	t_cmd	*cmds;
 	t_env	*envi;
 
 	(void)argc;
@@ -25,12 +37,14 @@ int main(int argc, char **argv, char **envp)
 	sig_handler();
 	while (1)
 	{
-		line = readline(prompt);	//texte trop long donc dans le .h
+		line = readline(prompt); // texte trop long donc dans le .h
 		if (!line)
-			return (printf("exit\n"), free(line), free_env(envi), 0);		//raccourci
+			return (printf("exit\n"), free(line), free_env(envi), 0);
+				// raccourci
 		if (*line)
 			add_history(line);
-		parsing_n_expand(&tokens, line, envp, &cmds);	//	fonction pour reduire la taille du main pour + de lisibilité
+		parsing_n_expand(&tokens, line, envp, &cmds);
+				//	fonction pour reduire la taille du main pour + de lisibilité
 		free_tokens(tokens);
 		free(line);
 		exec_handler(cmds, envp, envi);
@@ -39,7 +53,7 @@ int main(int argc, char **argv, char **envp)
 	free_env(envi);
 	free(line);
 	rl_clear_history();
-	return 0;
+	return (0);
 }
 
 // int main(int argc, char **argv, char **envp)
@@ -56,7 +70,7 @@ int main(int argc, char **argv, char **envp)
 //         if (!line)
 //         {
 //             printf("exit\n");
-//             break;
+//             break ;
 //         }
 //         if (*line)
 //             add_history(line);
@@ -71,5 +85,5 @@ int main(int argc, char **argv, char **envp)
 //         free_cmds(cmds);
 //         free(line);
 //     }
-//     return 0;
+//     return (0);
 // }
