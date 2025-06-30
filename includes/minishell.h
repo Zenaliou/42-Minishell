@@ -66,18 +66,31 @@ typedef struct s_envi {
 } t_env;
 
 // Tokenizing
-t_token	*new_token(char *value, t_token_type type);
 t_token *tokenize(char *input);
+char	*handle_symbol(char *current, t_token **tokens, t_quote_state *qs);
+char	*handle_pipe_and_or(char *current, t_token **tokens);
+char	*handle_parens(char *current, t_token **tokens);
+char	*handle_word(char *current, t_token **tokens, t_quote_state *qs);
+t_token	*handle_unclosed_quote(t_token *tokens);
+char	*handle_redirect_out(char *current, t_token **tokens);
+char	*handle_redirect_in(char *current, t_token **tokens);
+t_token	*new_token(char *value, t_token_type type);
 void    add_token(t_token **list, t_token *new);
 char    *extract_word(char **input);
 
 // Parsing
 t_cmd   *parse_tokens(t_token *tokens);
+t_cmd	*parse_simple_command(t_token **tokens);
+t_token	*handle_redirection(t_cmd **cmd, t_token *token);
+t_token	*handle_subshell(t_cmd **cmd, t_token *token);
+t_token	*find_matching_paren(t_token *tokens);
+t_token	*extract_tokens_between_parens(t_token *start, t_token *end);
+
+// CMD
 void    add_argument(t_cmd *cmd, char *arg);
 t_cmd   *new_cmd(void);
 void    add_cmd(t_cmd **cmds, t_cmd *new_cmd);
 char	*extract_quoted_word(char **input, t_quote_state *state);
-
 // Expansion
 void    expand_variables(t_token *tokens, char **env);
 char    *expand_env(char *str, char **env);
@@ -108,8 +121,8 @@ int	nodeend(t_env **head, char	*env);
 int nodenewhead(t_env **head, char *envline);
 int	fakeenv(char **env, t_env **envi);
 // DEBUG
-void print_cmds(t_cmd *cmds);
-
+void    print_cmds(t_cmd *cmds);
+void    print_tokens(t_token *tokens);
 
 // SIGNALS
 void    sig_handler(void);
