@@ -66,6 +66,13 @@ void print_cmds_debug(t_cmd *cmds, int depth)
             printf("  Right subcommand:\n");
             print_cmds_debug(cmds->right, depth + 1);
         }
+        if (cmds->err == 1 || cmds->err == 0)
+        {
+            for (int i = 0; i < depth; i++)
+                printf("  ");
+            if (cmds->err == 1)
+                printf("  ERROR: ERROR IN LIST LIST NOT AVAILABLE\n");
+        }
         
         cmds = cmds->next;
     }
