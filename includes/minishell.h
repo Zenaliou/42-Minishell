@@ -18,6 +18,7 @@
 
 # define prompt "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n~> \e[1;35m$\e[0m "
 # define prompt2 "\e[45m \e[41m\e[4;32m~\t <}-)[minishell](-{> \t~\e[45m \e[0m\n"
+# define maxascii 257
 
 // typedef struct s_token {
 extern volatile sig_atomic_t sig_value; // Pour gérer les signaux ctrl + c, ctrl+D et ctrl+\ /
@@ -58,6 +59,7 @@ typedef struct s_cmd {
     int heredoc;
     char *limiter;
     int operator;
+    int err;
     struct s_cmd *left;
     struct s_cmd *right;
     struct s_cmd *next;
