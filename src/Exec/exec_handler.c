@@ -122,7 +122,7 @@ char	*pathing(t_cmd *cmds, t_env *env)
 
 void	builtin_finder(t_shell *shell, int i)
 {
-	if (!shell->cmd->argv)
+	if (!shell->cmd->argv | !shell->env)
 		return ;
 	printf("-\tBUILTIN %d\n", i);
 	if (i == 1)
@@ -240,11 +240,13 @@ void	free_sub_proc(char *path, t_env *envi, t_cmd *tmp)
 
 pid_t	processing(t_shell *shell)
 {
-	int stat;
+	// int stat;
 	char	*path;
 
 	path = NULL;
-	stat = 0;
+	// stat = 0;
+	if (!shell->cmd || shell->cmd->heredoc == 1 /*|| shell->cmd->append */|| !shell->cmd->argv)
+		return -1;
 	if ((is_builtin(shell->cmd->argv[0]) == 2) || (is_builtin(shell->cmd->argv[0]) == 4) 
 		|| (is_builtin(shell->cmd->argv[0]) == 5) || (is_builtin(shell->cmd->argv[0]) == 7))
 		// 2 == cd , 4 == export, 5 = unset, 7 == exit
@@ -258,7 +260,7 @@ pid_t	processing(t_shell *shell)
 		// close(fd[0]);
 		// dup2(fd[1], STDIN_FILENO);
 		// close(fd[1]);
-		path = pathing(shell->cmd, shell->env);	
+		path = pathing(shell->cmd, shell->env);
 		if (is_builtin(shell->cmd->argv[0]) == 1 || is_builtin(shell->cmd->argv[0]) == 3 || is_builtin(shell->cmd->argv[0]) == 6)
 		// 1 echo 3 pwd 6 env
 		{
@@ -267,7 +269,7 @@ pid_t	processing(t_shell *shell)
 			free_sub_proc(path, shell->env, shell->head);
 			exit(0);
 		}
-		else if (execve(path, shell->cmd->argv, shell->envtab) < 0)
+		else if (!path || execve(path, shell->cmd->argv, shell->envtab) < 0)
 		{
 			perror("Minishell: Unable to execute command");
 			free_sub_proc(path, shell->env, shell->head);
@@ -323,14 +325,42 @@ int	process_board(t_shell *shell)
 	err = 0;
 	while (shell->cmd)
 	{
-		err = processing(shell);
-		shell->cmd = shell->cmd->next;
+		if ((!shell->cmd->argv && shell->cmd->next) || !shell->cmd)
+			shell->cmd = shell->cmd->next;
+		if (shell->cmd->heredoc && shell->cmd->next)
+		{
+			// put subprocess heredoc with dup, gnl etc...
+			shell->cmd = shell->cmd->next;
+			//
+		}
+		else
+		{
+			err = processing(shell);
+			shell->cmd = shell->cmd->next;
+		}
 	}
 	// printf("-\tend process %d \n", shell->cmd->pid);
 	printf("\n");
 	return (err);
 }
 
+
+int	checkerror(t_cmd *cmds)
+{
+	t_cmd *tmp;
+
+	if (!cmds)
+		return (1);
+	tmp = NULL;	
+	tmp = cmds;
+	while (tmp)
+	{
+		if (tmp->err == 1)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 int exec_handler(t_cmd *cmds, char **env, t_env *envi)
 {
@@ -342,9 +372,12 @@ int exec_handler(t_cmd *cmds, char **env, t_env *envi)
 	shell.env = envi;
 	shell.envtab = env;
 	shell.line = NULL;
+	if (!cmds)
+		return (0);
 	if (!env)	//debug
 		printf("-\tnoenv\n");	//debug
-	process_board(&shell);
+	if (checkerror(cmds) == 0)
+		process_board(&shell);
 	// free_env(envi);
 	return (1);
 }

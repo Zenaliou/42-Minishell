@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 16:48:40 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:03:18 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	envi = NULL;
+	cmds = NULL;
 	fakeenv(envp, &envi);
 	sig_handler();
 	while (1)
@@ -44,9 +45,10 @@ int	main(int argc, char **argv, char **envp)
 		if (*line)
 			add_history(line);
 		parsing_n_expand(&tokens, line, envp, &cmds);
-		free_tokens(tokens);
 		free(line);
-		exec_handler(cmds, envp, envi);
+		free_tokens(tokens);
+		if (cmds && cmds->err == 0)
+			exec_handler(cmds, envp, envi);
 		free_cmds(cmds);
 	}
 	free_env(envi);

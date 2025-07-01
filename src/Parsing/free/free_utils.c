@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:35:12 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 18:09:18 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:20:17 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	free_argv(char **argv)
 	{
 		printf("arg freed %s\n", argv[i]);
 		free(argv[i]);
+		argv[i] = NULL;
 		i++;
 	}
 	free(argv);

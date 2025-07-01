@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pwd+cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:42:51 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/27 16:40:43 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:53:45 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	builtin_cd(char **argv, t_env *envi)
 	char	*str;
 
 	str = NULL;
-	if (!argv[1])
+	if ((!argv[1]) || (ft_strcmp(argv[1], "~") == 0))
 	{
 		str = get_home(envi);
 		if (chdir(str) != 0)
@@ -91,7 +91,7 @@ void	builtin_cd(char **argv, t_env *envi)
 		free(str);
 		return ;
 	}
-	if (ft_strncmp(argv[1], "-", 1) == 0)
+	if (ft_strcmp(argv[1], "-") == 0)
 	{
 		str = get_env_remake(envi);
 		if (chdir(str))

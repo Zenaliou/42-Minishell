@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:26:57 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 15:27:33 by niclee           ###   ########.fr       */
+/*   Updated: 2025/07/01 20:45:53 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 t_token	*redir_missing_file_error(t_cmd *cmd)
 {
 	ft_putstr_fd("Syntax error: missing file for redirection\n", STDERR_FILENO);
-	if (cmd)
-		free_cmds(cmd);
+	// if (cmd)
+		// free_cmds(cmd);
+	// cmd = NULL;
+	cmd->err = 1;
 	return (NULL);
 }
 
