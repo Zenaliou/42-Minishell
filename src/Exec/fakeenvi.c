@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:44:50 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/06/17 14:45:44 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:44:03 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int nodenewhead(t_env **head, char *envline)
 
 int	fakeenv(char **env, t_env **envi)
 {
-	t_env	*head;
+	// t_env	*head;
 	int		i;
 
 	i = 0;
@@ -62,6 +62,6 @@ int	fakeenv(char **env, t_env **envi)
 		if (nodeend(envi, env[i++]) == -1)
 			return (-1);
 	}
-	head = *envi;
+	// head = *envi;
 	return (1);
 }
