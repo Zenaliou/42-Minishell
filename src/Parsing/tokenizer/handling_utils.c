@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 15:18:34 by niclee           ###   ########.fr       */
+/*   Updated: 2025/07/03 20:49:00 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ char	*handle_pipe_and_or(char *current, t_token **tokens)
 	{
 		add_token(tokens, new_token(ft_strdup("&&"), AND));
 		return (current + 2);
+	}
+	else if (*current == '&')
+	{
+		ft_putstr_fd("minishell : syntax error near unexpected token '&'\n", STDERR_FILENO);
+		return (current + 1);
 	}
 	return (current);
 }
