@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:40:04 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/01 20:45:36 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:14:35 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_cmd	*new_cmd(void)
 {
 	t_cmd	*cmd;
 
- 	cmd = malloc(sizeof(t_cmd));
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	ft_bzero((void *)cmd, sizeof(cmd));

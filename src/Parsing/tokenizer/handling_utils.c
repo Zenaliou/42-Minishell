@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/04 15:44:07 by niclee           ###   ########.fr       */
+/*   Updated: 2025/07/04 16:16:02 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ char	*handle_pipe_and_or(char *current, t_token **tokens)
 	}
 	else if (*current == '&')
 	{
-		ft_putstr_fd("minishell : syntax error near unexpected token '&'\n", STDERR_FILENO);
+		ft_putstr_fd("minishell : syntax error near unexpected token '&'\n",
+			STDERR_FILENO);
 		return (current + 1);
 	}
 	return (current);

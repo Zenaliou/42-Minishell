@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 16:01:07 by niclee           ###   ########.fr       */
+/*   Updated: 2025/07/04 16:13:42 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,20 @@ static char	*append_var_value(char *result, char *val)
 
 static char	*process_variable(const char **p, char **env, char *result)
 {
-	const char	*start;
-	char		*var;
-	char		*val;
+	char							*code;
+	const char						*start;
+	char							*var;
+	char							*val;
+	extern volatile sig_atomic_t	sig_value;
 
 	(*p)++;
+	if (**p == '?')
+	{
+		code = ft_itoa(sig_value);
+		result = append_var_value(result, code);
+		(*p)++;
+		return (result);
+	}
 	start = *p;
 	while (ft_isalnum(**p) || **p == '_')
 		(*p)++;
@@ -73,7 +82,8 @@ char	*expand_all_vars(const char *str, char **env)
 	p = str;
 	while (*p)
 	{
-		if (*p == '$' && (ft_isalnum(*(p + 1)) || *(p + 1) == '_'))
+		if (*p == '$' && (ft_isalnum(*(p + 1)) || *(p + 1) == '_' || *(p
+					+ 1) == '?'))
 			result = process_variable(&p, env, result);
 		else
 		{
