@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:12:52 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/03 20:49:00 by niclee           ###   ########.fr       */
+/*   Updated: 2025/07/04 15:44:07 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,20 @@ char	*handle_parens(char *current, t_token **tokens)
 
 char	*handle_word(char *current, t_token **tokens, t_quote_state *qs)
 {
-	char	*word;
+	char			*word;
+	t_quote_state	quote_type;
+	t_token			*new;
 
+	if (*current == '\'')
+		quote_type = SINGLE_QUOTE;
+	else if (*current == '"')
+		quote_type = DOUBLE_QUOTE;
+	else
+		quote_type = NO_QUOTE;
 	word = extract_quoted_word(&current, qs);
-	add_token(tokens, new_token(word, WORD));
+	new = new_token(word, WORD);
+	new->quote_state = quote_type;
+	add_token(tokens, new);
 	return (current);
 }
 

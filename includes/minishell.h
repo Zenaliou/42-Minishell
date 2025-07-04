@@ -48,6 +48,7 @@ typedef enum e_quot_state
 typedef struct s_token {
     char *value;
     t_token_type type;
+    t_quote_state quote_state;
     struct s_token *next;
 } t_token;
 
