@@ -16,14 +16,18 @@ static int	is_numeric(const char *str)
 	return (1);
 }
 
-int	builtin_exit(char **args)
+int	builtin_exit(char **args, t_shell **shell)
 {
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (!args[1])
+	{
+		free_sub_proc(NULL, (*shell)->env, (*shell)->head, *shell);
 		exit(0);
+	}
 	if (!is_numeric(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: numeric argument required\n", STDERR_FILENO);
+		free_sub_proc(NULL, (*shell)->env, (*shell)->head, *shell);
 		exit(255);
 	}
 	if (args[2])
@@ -31,5 +35,6 @@ int	builtin_exit(char **args)
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
+	free_sub_proc(NULL, (*shell)->env, (*shell)->head, *shell);
 	exit(ft_atol(args[1]) % 256);
 }

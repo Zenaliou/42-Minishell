@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <ctype.h>
 # include "libft.h"
+# include "get_next_line.h"
 # include <dirent.h>
 # include <signal.h>
 # include <stdatomic.h>
@@ -22,8 +23,6 @@
 
 // typedef struct s_token {
 extern volatile sig_atomic_t sig_value; // Pour gérer les signaux ctrl + c, ctrl+D et ctrl+\ /
-
-
 
 typedef enum e_token_type {
     WORD,
@@ -58,6 +57,7 @@ typedef struct s_cmd {
     char *outfile;
     int append;
     int heredoc;
+    // int 
     char *limiter;
     int operator;
     int err;
@@ -79,6 +79,7 @@ typedef struct s_shell
 	t_cmd *cmd;
 	t_cmd *head;
 	char *line;
+    int *fd;
 } t_shell;
 
 // Tokenizing
@@ -120,9 +121,11 @@ void    free_tokens(t_token *tokens);
 void    free_cmds(t_cmd *cmds);
 void    freetab(char **str);
 void	free_env(t_env *env);
+void	free_sub_proc(char *path, t_env *envi, t_cmd *tmp, t_shell *shell);
+
 
 // Execution (à compléter selon ton projet)
-int exec_handler(t_cmd *cmds, char **env, t_env *envi);
+int exec_handler(t_cmd *cmds, char **env, t_env **envi);
 // int	process_board(t_cmd *cmds, t_env *envi, char **env);
 int	process_board(t_shell *shell);
 
@@ -130,21 +133,26 @@ int	process_board(t_shell *shell);
 int	    builtin_echo(char **args);
 void	builtin_pwd(void);
 void	builtin_cd(char **argv, t_env *envi);
-void	builtin_env(t_env *envi);
-void	builtin_unset(char **argv, t_env **envi); // BANCAL DE FOU
-int	    builtin_exit(char **args);
+void	builtin_env(t_shell *shell);
+void	builtin_unset(t_shell **shell);
+int	builtin_export(t_shell **shell);
+int	    builtin_exit(char **args, t_shell **shell);
 
 // fake env
 int	nodeend(t_env **head, char	*env);
 int nodenewhead(t_env **head, char *envline);
 int	fakeenv(char **env, t_env **envi);
+int    search_env(char *line, char *baseline);
 // DEBUG
 void    print_cmds(t_cmd *cmds);
 void    print_tokens(t_token *tokens);
 
 // SIGNALS
+// void    sig_handler(void);
 void    sig_handler(void);
+void    sig_handler_begin(void);
 void    sig_dealer(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
+void    sig_dealer_begin(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
 
 
 #endif

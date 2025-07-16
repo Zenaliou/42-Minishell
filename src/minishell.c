@@ -6,29 +6,34 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/01 21:03:18 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:07:34 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minishell.h"
 #include "../includes/minishell.h"
 
-void	parsing_n_expand(t_token **tokens, char *line, char **env, t_cmd **cmds)
+void	parsing_n_expand(char *line, char **env, t_cmd **cmds)
 {
-	*tokens = tokenize(line);
-	expand_wildcards(*tokens);
-	expand_variables(*tokens, env);
-	*cmds = parse_tokens(*tokens);
+	t_token	*tokens;
+
+	tokens = NULL;
+	tokens = tokenize(line);
+	expand_wildcards(tokens);
+	expand_variables(tokens, env);
+	*cmds = parse_tokens(tokens);
 	printf("\n=== Résultat du parsing ===\n"); // DEBUG
 	print_cmds(*cmds);
+	free_tokens(tokens);
+	free(line);	
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	t_token	*tokens;
 	t_cmd	*cmds;
 	t_env	*envi;
+	// t_shell	shell;
 
 	(void)argc;
 	(void)argv;
@@ -44,11 +49,10 @@ int	main(int argc, char **argv, char **envp)
 				// raccourci
 		if (*line)
 			add_history(line);
-		parsing_n_expand(&tokens, line, envp, &cmds);
-		free(line);
-		free_tokens(tokens);
+		parsing_n_expand(line, envp, &cmds);
 		if (cmds && cmds->err == 0)
-			exec_handler(cmds, envp, envi);
+			// exec_handler(&shell);
+			exec_handler(cmds, envp, &envi);
 		free_cmds(cmds);
 	}
 	free_env(envi);

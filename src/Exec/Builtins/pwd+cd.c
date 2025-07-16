@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:42:51 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/01 21:53:45 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:29:27 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char	*get_env_remake(t_env *envi)
 		i++;
 	i++;
 	path = ft_strdup(&pwd[i]);
+	if (!path)
+		return (free(path), getcwd(NULL, 0));
 	printf("pwd from env %s\n", path);
 	return (path);
 }
@@ -55,9 +57,9 @@ char	*get_home(t_env *envi)
 	i = 0;
 	j = 0;
 	str = get_env_remake(envi);
-	(void)envi;
-	while (str[i] != '\0')
-		i++;
+	if (!str)
+		str = getcwd(NULL, 0);
+	i = ft_strlen(str);
 	if (i > 1)
 	{
 		i = 0;
@@ -71,10 +73,8 @@ char	*get_home(t_env *envi)
 				break ;
 			}
 			i++;
-			
 		}
 	}
-	printf("path cd %s\n", str);
 	return (str);
 }
 
