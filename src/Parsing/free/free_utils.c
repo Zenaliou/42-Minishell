@@ -21,7 +21,7 @@ static void	free_argv(char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		printf("arg freed %s\n", argv[i]);
+		// printf("arg freed %s\n", argv[i]);
 		free(argv[i]);
 		argv[i] = NULL;
 		i++;

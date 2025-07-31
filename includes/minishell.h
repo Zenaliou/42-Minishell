@@ -79,7 +79,8 @@ typedef struct s_shell
 	t_cmd *cmd;
 	t_cmd *head;
 	char *line;
-    int *fd;
+    int     *in;
+    int     *out;
 } t_shell;
 
 // Tokenizing
@@ -135,14 +136,18 @@ void	builtin_pwd(void);
 void	builtin_cd(char **argv, t_env *envi);
 void	builtin_env(t_shell *shell);
 void	builtin_unset(t_shell **shell);
-int	builtin_export(t_shell **shell);
+int     builtin_export(t_shell **shell);
 int	    builtin_exit(char **args, t_shell **shell);
+int     is_builtin(char *str);
+void	builtin_finder(t_shell **shell, int i);
+int     is_bt_int(int i);
 
 // fake env
 int	nodeend(t_env **head, char	*env);
 int nodenewhead(t_env **head, char *envline);
 int	fakeenv(char **env, t_env **envi);
 int    search_env(char *line, char *baseline);
+char	**getenvmini(t_env *env);
 // DEBUG
 void    print_cmds(t_cmd *cmds);
 void    print_tokens(t_token *tokens);
@@ -153,6 +158,16 @@ void    sig_handler(void);
 void    sig_handler_begin(void);
 void    sig_dealer(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
 void    sig_dealer_begin(int  signum, siginfo_t *info, void *context); //gives the value of the signal to the global variable to catch them
+
+// STRING HANDLING EXEC
+char	*ft_str_n_join(char *str, char *n, char *join);
+char	*pathchecker(char *cmd, t_env *env);
+char	*pathing(t_cmd *cmds, t_env *env);
+
+// HEREDOC
+int     dochere(char **infile, int *fd, char *limiter, t_shell *shell);
+int     heredoc(t_shell **shell);
+void	print_heredoc(t_cmd *cmd, char *infile, int *fd);
 
 
 #endif

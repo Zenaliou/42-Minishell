@@ -42,7 +42,7 @@ char	*get_env_remake(t_env *envi)
 	path = ft_strdup(&pwd[i]);
 	if (!path)
 		return (free(path), getcwd(NULL, 0));
-	printf("pwd from env %s\n", path);
+	// printf("pwd from env %s\n", path);
 	return (path);
 }
 

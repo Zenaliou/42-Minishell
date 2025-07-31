@@ -90,7 +90,9 @@ void	shell_level(t_env **envi)
 				val = ft_atol(&buffer[i]);
 				free(buffer);
 				buffer = ft_itoa(val+1);
-				printf("val shlvl %s\n", buffer);
+				ft_putstr_fd("val shlvl", 2);
+				ft_putstr_fd(buffer, 2);
+				ft_putstr_fd("\n", 2);
 				tmp->full = ft_strjoin("SHLVL=", buffer);
 				free(buffer);
 			}

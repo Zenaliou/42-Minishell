@@ -6,12 +6,11 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:45:19 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/07/14 04:02:37 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:23:29 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 int	nodesize(t_env *envi)
 {
@@ -67,61 +66,11 @@ int	search_env(char *line, char *baseline)
 	if ((int)ft_strlen(baseline) < i)
 		return (free(cpy), -1);
 	cpy[i] = '\0';
-	printf("seqrchenv return 0 %s\n", line);
-	printf("seqrchenv return 0 %s\n\n", cpy);
 	if (ft_strcmp(line, cpy) != 0)
 		return (free(cpy), -1);
 	else
 		return (free(cpy), 1);
 }
-
-// void	builtin_unset(t_shell *shell)
-// {
-// 	t_env	*tmp;
-// 	t_env 	*head;
-// 	//faire l'env de base de env -i avec pwd shlvl etc...
-// 	tmp = NULL;
-// 	head = NULL;
-// 	head = shell->env;
-
-// 	if (!shell->cmd->argv || !head)
-// 		return ;
-// 	if (head && search_env(shell->cmd->argv[1], (head)->full) == 1)
-// 	{
-// 		tmp = head;
-// 		if (tmp->next)
-// 		{
-// 			head = tmp->next;
-// 			free(tmp->full);
-// 			free(tmp);
-// 			shell->env = head;
-// 			return ;
-// 		}
-// 		else if (!head->next)
-// 		{
-// 			free(tmp->full);
-// 			free(tmp);
-// 			shell->env = NULL;
-// 			return ;
-// 		}
-// 	}
-// 	while (head && head->next)
-// 	{
-// 		if (head && search_env(shell->cmd->argv[1], (head)->next->full) == 1)
-// 		{
-// 			if ((head)->next->next)
-// 				tmp = (head)->next->next;
-// 			// printf("deleted node = %s\n", tmp->full);
-// 			free(head->next->full);
-// 			free(head->next);
-// 			head->next = tmp;
-// 			// shell->env = head;
-// 			return ;
-// 		}
-// 		head = head->next;
-// 	}
-// 	return ;
-// }
 
 void	builtin_unset(t_shell **shell)
 {
@@ -131,7 +80,6 @@ void	builtin_unset(t_shell **shell)
 
 	last = NULL;
 	head = (*shell)->env;	
-
 	if (!(*shell)->cmd->argv || !head)
 		return ;
 	while (head)
@@ -151,4 +99,31 @@ void	builtin_unset(t_shell **shell)
 	if (head == NULL)
 		printf("unset: %s: invalid parameter name\n", (*shell)->cmd->argv[1]);
 }
-	
+
+char	**getenvmini(t_env *env)
+{
+	char	*path;
+	char	**envd;
+	int	i;
+
+	i = 4;
+	envd = NULL;
+	path = NULL;
+	if (!env)
+		return (NULL);
+	while (env != NULL && env->full)
+	{
+		if (ft_strncmp(env->full, "PATH=", 4) == 0)
+		{
+			path = env->full;
+			break;
+		}
+		env = env->next;
+	}
+	if (!path)
+		return (NULL);
+	envd = ft_split(path+i, ':');
+	if (!envd)
+		return (free(path), NULL);
+	return (envd);
+}

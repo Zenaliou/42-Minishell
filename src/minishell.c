@@ -22,7 +22,7 @@ void	parsing_n_expand(char *line, char **env, t_cmd **cmds)
 	expand_wildcards(tokens);
 	expand_variables(tokens, env);
 	*cmds = parse_tokens(tokens);
-	printf("\n=== Résultat du parsing ===\n"); // DEBUG
+	ft_putstr_fd("\n=== Résultat du parsing ===\n", 2); // DEBUG
 	print_cmds(*cmds);
 	free_tokens(tokens);
 	free(line);	
