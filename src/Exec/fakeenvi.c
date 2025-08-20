@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:44:50 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/07/10 16:35:41 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/20 18:45:01 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ void	shell_level(t_env **envi)
 				val = ft_atol(&buffer[i]);
 				free(buffer);
 				buffer = ft_itoa(val+1);
-				ft_putstr_fd("val shlvl", 2);
-				ft_putstr_fd(buffer, 2);
-				ft_putstr_fd("\n", 2);
+				// ft_putstr_fd("val shlvl", 2); // DEBUG
+				// ft_putstr_fd(buffer, 2); // DEBUG
+				// ft_putstr_fd("\n", 2); // DEBUG
 				tmp->full = ft_strjoin("SHLVL=", buffer);
 				free(buffer);
 			}

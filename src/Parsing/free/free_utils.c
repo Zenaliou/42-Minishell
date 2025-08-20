@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:35:12 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/01 20:20:17 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:12:15 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	free_cmds(t_cmd *cmds)
 			free(tmp->outfile);
 		if (tmp->limiter)
 			free(tmp->limiter);
+		if (tmp->hd_fd >= 0)
+			close(tmp->hd_fd);
 		if (tmp->left)
 			free_cmds(tmp->left);
 		if (tmp->right)

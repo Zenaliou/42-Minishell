@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:24:45 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 15:51:19 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/19 15:01:00 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*handle_pipe_syntax_error(t_cmd *cmd)
 	return (NULL);
 }
 
-t_cmd	*parse_simple_command(t_token **tokens)
+t_cmd	*parse_simple_command(t_token **tokens, t_stock *stock)
 {
 	t_cmd		*cmd;
 	t_token		*current;
@@ -48,9 +48,9 @@ t_cmd	*parse_simple_command(t_token **tokens)
 		if (current->type == WORD)
 			current = handle_word_token(&cmd, current);
 		else if (is_redirection(current->type))
-			current = handle_redirection(&cmd, current);
+			current = handle_redirection(&cmd, current, stock);
 		else if (current->type == LPAREN)
-			current = handle_subshell(&cmd, current);
+			current = handle_subshell(&cmd, current, stock->env);
 		else if (current->type == RPAREN)
 			break ;
 		else

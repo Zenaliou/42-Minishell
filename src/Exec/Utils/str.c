@@ -66,9 +66,10 @@ char	*pathchecker(char *cmd, t_env *env)
 		i++;
 	}
 	freetab(envsym);
-	// printf("l97 exec_handler\t pathchecker return (copy): %s\n", copy);
 	return (copy);
 }
+
+// printf("l97 exec_handler\t pathchecker return (copy): %s\n", copy);
 
 char	*pathing(t_cmd *cmds, t_env *env)
 {
@@ -90,4 +91,39 @@ char	*pathing(t_cmd *cmds, t_env *env)
 		// path = cmds->argv[0];
 		path = ft_strdup(cmds->argv[0]);
 	return (path);
+}
+
+int	checkerror(t_cmd *cmds)
+{
+	t_cmd *tmp;
+
+	if (!cmds)
+		return (1);
+	tmp = NULL;	
+	tmp = cmds;
+	while (tmp)
+	{
+		if (tmp->err != 0)
+			return (tmp->err);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+t_shell	shell_init(t_cmd *cmds, char **env, t_env **envi)
+{
+	t_shell		shell;
+
+	ft_bzero((void *)&shell, sizeof(shell));
+	shell.cmd = cmds;
+	shell.head = cmds;
+	shell.env = (*envi);
+	shell.envtab = NULL;
+	shell.in = NULL;
+	shell.out = NULL;
+	if (!shell.envtab)
+		shell.envtab = NULL;
+	shell.line = NULL;
+	(void)env;
+	return (shell);
 }

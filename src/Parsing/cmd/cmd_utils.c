@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:40:04 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/04 16:14:35 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:26:57 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd	*new_cmd(void)
 	cmd->err = 0;
 	cmd->infile = NULL;
 	cmd->limiter = NULL;
+	cmd->hd_fd = -1;
 	cmd->outfile = NULL;
 	cmd->next = NULL;
 	cmd->left = NULL;

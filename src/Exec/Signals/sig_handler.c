@@ -35,17 +35,6 @@ void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the valu
 		sig_value = SIGQUIT;
 }
 
-// void    sig_dealer_begin(int  signum, siginfo_t *info, void *context) //gives the value of the signal to the global variable to catch them
-// {
-// 	(void)info;
-// 	(void)context;
-// 	if (signum == SIGINT)
-// 	{
-// 		printf("\n");
-// 		sig_value = 128+SIGINT;
-// 	}
-// }
-
 void    sig_handler(void)
 {
 	struct sigaction    signals;
@@ -60,4 +49,18 @@ void    sig_handler(void)
 		return ;
 	// if (sigaction(SIGSTOP, &signals, NULL) == -1)
 		// return ;
+}
+
+pid_t	waiting_and_status(pid_t *pid, int *i)
+{
+	int stat;
+
+	stat = 0;
+	waitpid(*pid, &stat, 0);
+	if (WIFEXITED(stat))
+		sig_value = WEXITSTATUS(stat);
+	else if (WIFSIGNALED(stat))
+		sig_value = (128 + WTERMSIG(stat))%256;
+	*i = 1;
+	return (*pid);
 }
