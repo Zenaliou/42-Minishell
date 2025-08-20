@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:09:22 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/20 18:31:22 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 00:43:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	redir_out(t_shell **shell, int *fd)
 		sig_value = 1;
 		*fd = open("/dev/null", O_WRONLY);
 	}
-	if (fd >= 0)
+	if (*fd >= 0)
 		dupclose(&(*fd), STDOUT_FILENO);
 }
 
