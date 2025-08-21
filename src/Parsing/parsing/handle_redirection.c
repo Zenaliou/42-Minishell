@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:26:57 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/20 14:18:08 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 15:04:24 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 t_token	*redir_missing_file_error(t_cmd *cmd)
 {
-	ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+	ft_putstr_fd("bash: syntax error near unexpected token `newline'\n",
+		STDERR_FILENO);
 	cmd->err = 2;
 	return (NULL);
 }
@@ -43,69 +44,12 @@ void	handle_redir_out(t_cmd *cmd, t_token *file_token, int append)
 		close(fd);
 }
 
-// void	handle_heredoc(t_cmd *cmd, t_token *limiter_token)
-// {
-// 	static int	i;
-
-// 	cmd->heredoc = 1;
-// 	if (i >= 1)
-// 		cmd->heredoc = i;
-// 	// cmd->limiter = ft_strdup(limiter_token->value);
-// 	cmd->limiter = ft_strdup(limiter_token->value);
-// 	// i++;
-// }
-
-//v2
-
-// int    heredoc(char *limiter)
-// {
-//     char    *infile;
-//     int     fd[2];
-//     pid_t   pid;
-//     int     status;
-    
-//     if (pipe(fd) < 0)
-//         return (-1);
-        
-//     pid = fork();
-//     if (pid == 0)
-//     {
-//         close(fd[0]);
-//         while (1)
-//         {
-//             ft_putstr_fd("here_doc -> ", STDERR_FILENO);
-//             infile = get_next_line(STDIN_FILENO);
-            
-//             if (!infile)
-//             {
-//                 close(fd[1]);
-//                 exit(0);
-//             }
-//             if ((ft_strncmp(infile, limiter, ft_strlen(limiter)) == 0)
-//                 && infile[ft_strlen(limiter)] == '\n')
-//             {
-//                 free(infile);
-//                 break;
-//             }
-//             ft_putstr_fd(infile, fd[1]);
-//             free(infile);
-//         }
-//         close(fd[1]);
-//         exit(0);
-//     }
-//     status = -1;
-//     waiting_status(&pid, &status);
-//     close(fd[1]);
-//     return (fd[0]);
-// }
-
-void    handle_heredoc(t_cmd *cmd, t_token *limiter_token, t_stock *stock)
+void	handle_heredoc(t_cmd *cmd, t_token *limiter_token, t_stock *stock)
 {
-    int new_fd;
-	
+	int	new_fd;
+
 	stock->curr_cmd = cmd;
 	stock->curr_token = limiter_token;
-	// new_fd = heredoc(cmd, limiter_token, stock);
 	new_fd = heredoc(stock);
 	if (cmd->limiter)
 		free(cmd->limiter);
@@ -113,7 +57,7 @@ void    handle_heredoc(t_cmd *cmd, t_token *limiter_token, t_stock *stock)
 		close(cmd->hd_fd);
 	cmd->heredoc = 1;
 	cmd->hd_fd = new_fd;
-    cmd->limiter = ft_strdup(limiter_token->value);
+	cmd->limiter = ft_strdup(limiter_token->value);
 }
 
 t_token	*handle_redirection(t_cmd **cmd, t_token *token, t_stock *stock)

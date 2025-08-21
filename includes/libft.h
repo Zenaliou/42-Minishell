@@ -53,7 +53,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_strcmp(char *s1, char *s2);
-char *ft_strndup(const char *s, size_t n);
+char	*ft_strndup(const char *s, size_t n);
 typedef struct s_list
 {
 	void			*content;
@@ -69,7 +69,5 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(f)(void *), void (*del)(void *));
-
-
 
 #endif

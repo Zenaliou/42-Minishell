@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:42:26 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/19 15:21:05 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:07:28 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_cmd	*parse_pipeline(t_token **tokens, t_stock *stock)
 	return (cmds);
 }
 
+/*
 // static t_cmd	*handle_logical_error(t_cmd *logical_cmd, char *msg)
 // {
 // 	ft_putstr_fd(msg, 2);
@@ -65,7 +66,8 @@ t_cmd	*parse_pipeline(t_token **tokens, t_stock *stock)
 // 	return (logical_cmd);
 // }
 
-// static t_cmd	*parse_logical_operator(t_cmd *left_cmd, t_token **current, t_env *env)
+// static t_cmd	*parse_logical_operator(t_cmd *left_cmd, t_token **current,
+		// t_env *env)
 // {
 // 	t_cmd	*logical_cmd;
 // 	t_cmd	*right_cmd;
@@ -83,11 +85,11 @@ t_cmd	*parse_pipeline(t_token **tokens, t_stock *stock)
 // 				"Syntax error: invalid right side of logical operator"));
 // 	logical_cmd->right = right_cmd;
 // 	return (logical_cmd);
-// }
+// } */
 
 t_stock	init_stock(t_env **envi, t_token **tokens)
 {
-	t_stock		stock;
+	t_stock	stock;
 
 	ft_bzero((void *)&stock, sizeof(stock));
 	stock.env = *envi;
@@ -102,7 +104,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 {
 	t_token	*current;
 	t_cmd	*left_cmd;
-	t_stock stock;
+	t_stock	stock;
 
 	if (!tokens)
 		return (NULL);
@@ -111,7 +113,5 @@ t_cmd	*parse_tokens(t_token *tokens, t_env *env)
 	left_cmd = parse_pipeline(&current, &stock);
 	if (!left_cmd)
 		return (NULL);
-	// if (current && (current->type == AND || current->type == OR))
-		// return (parse_logical_operator(left_cmd, &current, env));
 	return (left_cmd);
 }

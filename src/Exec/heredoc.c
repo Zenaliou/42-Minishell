@@ -38,10 +38,10 @@
 // {
 // 	waitpid(*pid, &(*stat), 0);
 // 	if (WIFEXITED(*stat))
-// 		sig_value = WEXITSTATUS(*stat);
+// 		g_sig_value = WEXITSTATUS(*stat);
 // 	else if (WIFSIGNALED(*stat))
-// 		sig_value = (128 + WTERMSIG(*stat))%256;
-// 	// printf("\t\t\tSIG VALUE DEBUG  %d\n", sig_value);
+// 		g_sig_value = (128 + WTERMSIG(*stat))%256;
+// 	// printf("\t\t\tSIG VALUE DEBUG  %d\n", g_sig_value);
 // 	// printf("test status %d\n", WEXITSTATUS(stat));
 // }
 
@@ -116,9 +116,9 @@ void	waiting_status(pid_t *pid, int *stat)
 {
 	waitpid(*pid, &(*stat), 0);
 	if (WIFEXITED(*stat))
-		sig_value = WEXITSTATUS(*stat);
+		g_sig_value = WEXITSTATUS(*stat);
 	else if (WIFSIGNALED(*stat))
-		sig_value = (128 + WTERMSIG(*stat))%256;
+		g_sig_value = (128 + WTERMSIG(*stat))%256;
 }
 
 int     heredoc(t_stock *stock)

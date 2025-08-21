@@ -32,12 +32,12 @@ int	subprocess(t_shell *shell, int *p_fd, int *fd, int bt)
 		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0])),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(0), 1);
 	path = pathing(shell->cmd, shell->env);
-	if ((!shell->cmd->argv && !path) || sig_value == 1)
+	if ((!shell->cmd->argv && !path) || g_sig_value == 1)
 		return (free_sub_proc(path, shell->env, shell->head, shell), exit(1), -1);
 	if (!path || execve(path, shell->cmd->argv, shell->envtab) < 0)
 		return (perror("Minishell: Unable to execute command"),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(127), -1);
-	exit(sig_value);
+	exit(g_sig_value);
 }
 
 int	piping(t_shell **shell, int *fd)
@@ -133,7 +133,7 @@ int exec_handler(t_cmd *cmds, char **env, t_env **envi)
 	if (checkerror(cmds) == 0)
 		process_board(&shell);
 	else
-		sig_value = 2;
+		g_sig_value = 2;
 	if (shell.env)
 		(*envi) = shell.env;
 	else

@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t sig_value = 0;
+volatile sig_atomic_t g_sig_value = 0;
 
 void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the value of the signal to the global variable to catch them
 {
@@ -20,19 +20,19 @@ void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the valu
 	(void)context;
 	if (signum == SIGINT)
 	{
-		if (sig_value == 467982)
+		if (g_sig_value == 467982)
 			return ;
 		printf("\n\n");
-		sig_value = 128+SIGINT;
+		g_sig_value = 128+SIGINT;
 		rl_on_new_line();
-		printf("%s", prompt2);
+		printf("%s", PROMPT2);
 		// rl_replace_line(prompt2, 0);
 		rl_replace_line("", 0);
 		rl_redisplay();
 		// rl_replace_line("", 0);
 	}
 	else if (signum == SIGQUIT)
-		sig_value = SIGQUIT;
+		g_sig_value = SIGQUIT;
 }
 
 void    sig_handler(void)
@@ -58,9 +58,9 @@ pid_t	waiting_and_status(pid_t *pid, int *i)
 	stat = 0;
 	waitpid(*pid, &stat, 0);
 	if (WIFEXITED(stat))
-		sig_value = WEXITSTATUS(stat);
+		g_sig_value = WEXITSTATUS(stat);
 	else if (WIFSIGNALED(stat))
-		sig_value = (128 + WTERMSIG(stat))%256;
+		g_sig_value = (128 + WTERMSIG(stat))%256;
 	*i = 1;
 	return (*pid);
 }

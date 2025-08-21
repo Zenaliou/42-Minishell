@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:09:22 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/21 00:43:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	redir_out(t_shell **shell, int *fd)
 	if (*fd < 0)
 	{
 		perror ("Minishell: ");
-		sig_value = 1;
+		g_sig_value = 1;
 		*fd = open("/dev/null", O_WRONLY);
 	}
 	if (*fd >= 0)

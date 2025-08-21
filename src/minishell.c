@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 00:40:03 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **envp) // tester main
 	{
 		while (1)
 		{
-			line = readline(prompt); // texte trop long donc dans le .h
+			line = readline(PROMPT); // texte trop long donc dans le .h
 			if (!line)
 				return (printf("exit\n"), free(line), free_env(envi), 0);
 					// raccourci
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp) // tester main
 				// exec_handler(&shell);
 				exec_handler(cmds, envp, &envi);
 			else if (cmds && cmds->err != 0)
-				sig_value = cmds->err;
+				g_sig_value = cmds->err;
 			free_cmds(cmds);
 		}
 		free_env(envi);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_subshell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:31:27 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/14 17:03:39 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:04:33 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ t_token	*handle_subshell(t_cmd **cmd, t_token *token, t_env *env)
 	free_tokens(sub_tokens);
 	return (closing->next);
 }
-

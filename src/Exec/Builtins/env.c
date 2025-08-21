@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:45:19 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/07/31 18:23:29 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:11:49 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	nodesize(t_env *envi)
 
 	i = 0;
 	if (!envi)
-		return (maxascii);
+		return (MAXASCII);
 	while (envi)
 	{
 		i++;

@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/04 16:13:42 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static char	*process_variable(const char **p, char **env, char *result)
 	const char						*start;
 	char							*var;
 	char							*val;
-	extern volatile sig_atomic_t	sig_value;
+	extern volatile sig_atomic_t	g_sig_value;
 
 	(*p)++;
 	if (**p == '?')
 	{
-		code = ft_itoa(sig_value);
+		code = ft_itoa(g_sig_value);
 		result = append_var_value(result, code);
 		(*p)++;
 		return (result);
