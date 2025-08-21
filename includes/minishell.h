@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:38 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 16:08:08 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 18:26:17 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define PROMPT "minishell> "
+// # define PROMPT "minishell> "
+# define PROMPT "\e[45m \e[41m\e[4;32m[ minishell ]\e[0m -> "
 # define PROMPT2 "minishell\n"
 # define MAXASCII 257
 
@@ -163,6 +164,8 @@ void							free_sub_proc(char *path, t_env *envi,
 int								exec_handler(t_cmd *cmds, char **env,
 									t_env **envi);
 int								process_board(t_shell *shell);
+int								piping(t_shell **shell, int *fd);
+
 
 // BUILT_IN
 int								builtin_echo(char **args);
@@ -184,6 +187,7 @@ int								fakeenv(char **env, t_env **envi);
 int								search_env(char *line, char *baseline);
 char							**getenvmini(t_env *env);
 char							**list_to_tab(t_env *env);
+void	buff_handling(char *buffer, int val, int i, t_env *tmp);
 // DEBUG
 void							print_cmds(t_cmd *cmds);
 void							print_tokens(t_token *tokens);

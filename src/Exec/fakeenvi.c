@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:44:50 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/20 18:45:01 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:26:38 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	nodeend(t_env **head, char	*env)
 	return (0);
 }
 
-int nodenewhead(t_env **head, char *envline)
+int	nodenewhead(t_env **head, char *envline)
 {
-	t_env *new;
-	
+	t_env	*new;
+
 	new = NULL;
 	if (!envline)
 		return (-1);
@@ -60,9 +60,10 @@ int	fakeenvempty(t_env **envi)
 		return (-1);
 	if (nodeend(envi, "_=/usr/bin/env") == -1)
 		return (-1);
-	if (nodeend(envi, "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin") == -1)
+	if (nodeend(envi,
+			"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
+		== -1)
 		return (-1);
-	// head = *envi;
 	return (1);
 }
 
@@ -86,17 +87,8 @@ void	shell_level(t_env **envi)
 				i++;
 			i++;
 			if (ft_isdigit(buffer[i]))
-			{
-				val = ft_atol(&buffer[i]);
-				free(buffer);
-				buffer = ft_itoa(val+1);
-				// ft_putstr_fd("val shlvl", 2); // DEBUG
-				// ft_putstr_fd(buffer, 2); // DEBUG
-				// ft_putstr_fd("\n", 2); // DEBUG
-				tmp->full = ft_strjoin("SHLVL=", buffer);
-				free(buffer);
-			}
-			return;
+				buff_handling(buffer, val, i, tmp);
+			return ;
 		}
 		tmp = tmp->next;
 	}

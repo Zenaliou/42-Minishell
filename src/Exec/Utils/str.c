@@ -53,7 +53,6 @@ char	*pathchecker(char *cmd, t_env *env)
 		return (NULL);
 	while (envsym[i] != NULL)
 	{
-		// printf("copy path %s\n", envsym[i]); DEBUG
 		copy = ft_str_n_join(envsym[i], "/", cmd);
 		if (!copy)
 			return (freetab(envsym), NULL);
@@ -69,15 +68,11 @@ char	*pathchecker(char *cmd, t_env *env)
 	return (copy);
 }
 
-// printf("l97 exec_handler\t pathchecker return (copy): %s\n", copy);
-
 char	*pathing(t_cmd *cmds, t_env *env)
 {
 	char	*path;
 
 	path = NULL;
-	// if (!cmds->argv[0])
-		// return (NULL);
 	if (!cmds->argv)
 		return (NULL);
 	if (access(cmds->argv[0], F_OK | X_OK) != 0)
@@ -85,21 +80,19 @@ char	*pathing(t_cmd *cmds, t_env *env)
 		path = pathchecker(cmds->argv[0], env);
 		if (!path)
 			path = ft_strdup(cmds->argv[0]);
-			// path = cmds->argv[0];
 	}
 	else
-		// path = cmds->argv[0];
 		path = ft_strdup(cmds->argv[0]);
 	return (path);
 }
 
 int	checkerror(t_cmd *cmds)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	if (!cmds)
 		return (1);
-	tmp = NULL;	
+	tmp = NULL;
 	tmp = cmds;
 	while (tmp)
 	{

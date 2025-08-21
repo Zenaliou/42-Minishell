@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:45:19 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/21 15:11:49 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 17:31:59 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	nodesize(t_env *envi)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!envi)
@@ -30,18 +30,19 @@ int	nodesize(t_env *envi)
 void	builtin_env(t_shell *shell)
 {
 	t_env	*tmp;
-	//faire l'env de base de env -i avec pwd shlvl etc...
+
 	if (!shell->env)
 		return ;
 	tmp = shell->env;
 	while (tmp)
 	{
-		if (shell->envtab == NULL && ft_strncmp(tmp->full, "PATH=", ft_strlen("PATH=")) == 0)
+		if (shell->envtab == NULL
+			&& ft_strncmp(tmp->full, "PATH=", ft_strlen("PATH=")) == 0)
 		{
 			if (tmp->next)
 				tmp = tmp->next;
 			else
-				break;
+				break ;
 		}
 		printf("%s\n", tmp->full);
 		tmp = tmp->next;
@@ -51,9 +52,9 @@ void	builtin_env(t_shell *shell)
 
 int	search_env(char *line, char *baseline)
 {
-	int	i;
+	int		i;
 	char	*cpy;
-	
+
 	i = 0;
 	cpy = NULL;
 	if ((!line || !baseline))
@@ -79,12 +80,13 @@ void	builtin_unset(t_shell **shell)
 	t_env	*head;
 
 	last = NULL;
-	head = (*shell)->env;	
+	head = (*shell)->env;
 	if (!(*shell)->cmd->argv || !head)
 		return ;
 	while (head)
 	{
-		if (search_env((*shell)->cmd->argv[1], (head)->full) == 1 && ft_strncmp((*shell)->cmd->argv[1], "_=", 1) != 0)
+		if (search_env((*shell)->cmd->argv[1], (head)->full) == 1
+			&& ft_strncmp((*shell)->cmd->argv[1], "_=", 1) != 0)
 		{
 			tmp = head;
 			if (!last && (*shell)->env->next)
@@ -104,7 +106,7 @@ char	**getenvmini(t_env *env)
 {
 	char	*path;
 	char	**envd;
-	int	i;
+	int		i;
 
 	i = 4;
 	envd = NULL;
@@ -116,13 +118,13 @@ char	**getenvmini(t_env *env)
 		if (ft_strncmp(env->full, "PATH=", 4) == 0)
 		{
 			path = env->full;
-			break;
+			break ;
 		}
 		env = env->next;
 	}
 	if (!path)
 		return (NULL);
-	envd = ft_split(path+i, ':');
+	envd = ft_split(path + i, ':');
 	if (!envd)
 		return (free(path), NULL);
 	return (envd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 17:39:04 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,12 @@ void	parsing_n_expand(char *line, char **env, t_cmd **cmds, t_env *envi)
 	free(line);	
 }
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	char	*line;
-// 	t_cmd	*cmds;
-// 	t_env	*envi;
-// 	// t_shell	shell;
-
-// 	(void)argc;
-// 	(void)argv;
-// 	envi = NULL;
-// 	cmds = NULL;
-// 	fakeenv(envp, &envi);
-// 	sig_handler();
-// 	while (1)
-// 	{
-// 		line = readline(prompt); // texte trop long donc dans le .h
-// 		if (!line)
-// 			return (printf("exit\n"), free(line), free_env(envi), 0);
-// 				// raccourci
-// 		if (*line)
-// 			add_history(line);
-// 		parsing_n_expand(line, envp, &cmds, envi);
-// 		if (cmds && checkerror(cmds) == 0)
-// 			// exec_handler(&shell);
-// 			exec_handler(cmds, envp, &envi);
-// 		free_cmds(cmds);
-// 	}
-// 	free_env(envi);
-// 	free(line);
-// 	rl_clear_history();
-// 	return (0);
-// }
-
-int	main(int argc, char **argv, char **envp) // tester main
+int	main(int argc, char **argv, char **envp)
 {
-	char	*line = NULL;
+	char	*line;
 	t_cmd	*cmds;
 	t_env	*envi;
+	// t_shell	shell;
 
 	(void)argc;
 	(void)argv;
@@ -77,41 +45,68 @@ int	main(int argc, char **argv, char **envp) // tester main
 	cmds = NULL;
 	fakeenv(envp, &envi);
 	sig_handler();
-	if (argc == 2)
+	while (1)
 	{
-		line = ft_strdup(argv[1]);
+		line = readline(PROMPT); // texte trop long donc dans le .h
+		if (!line)
+			return (printf("exit\n"), free(line), free_env(envi), 0);
+		if (*line)
+			add_history(line);
 		parsing_n_expand(line, envp, &cmds, envi);
-		if (cmds && cmds->err == 0)
-			// exec_handler(&shell);
+		if (cmds && checkerror(cmds) == 0)
 			exec_handler(cmds, envp, &envi);
 		free_cmds(cmds);
-		free_env(envi);
-		// free(line);
 	}
-	else
-	{
-		while (1)
-		{
-			line = readline(PROMPT); // texte trop long donc dans le .h
-			if (!line)
-				return (printf("exit\n"), free(line), free_env(envi), 0);
-					// raccourci
-			if (*line)
-				add_history(line);
-			parsing_n_expand(line, envp, &cmds, envi);
-			if (cmds && cmds->err == 0)
-				// exec_handler(&shell);
-				exec_handler(cmds, envp, &envi);
-			else if (cmds && cmds->err != 0)
-				g_sig_value = cmds->err;
-			free_cmds(cmds);
-		}
-		free_env(envi);
-		free(line);
-		rl_clear_history();
-	}
-	return (0);
+	return (free_env(envi), free(line),	rl_clear_history(),	0);
 }
+
+// int	main(int argc, char **argv, char **envp) // tester main
+// {
+// 	char	*line = NULL;
+// 	t_cmd	*cmds;
+// 	t_env	*envi;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	envi = NULL;
+// 	cmds = NULL;
+// 	fakeenv(envp, &envi);
+// 	sig_handler();
+// 	if (argc == 2)
+// 	{
+// 		line = ft_strdup(argv[1]);
+// 		parsing_n_expand(line, envp, &cmds, envi);
+// 		if (cmds && cmds->err == 0)
+// 			// exec_handler(&shell);
+// 			exec_handler(cmds, envp, &envi);
+// 		free_cmds(cmds);
+// 		free_env(envi);
+// 		// free(line);
+// 	}
+// 	else
+// 	{
+// 		while (1)
+// 		{
+// 			line = readline(PROMPT); // texte trop long donc dans le .h
+// 			if (!line)
+// 				return (printf("exit\n"), free(line), free_env(envi), 0);
+// 					// raccourci
+// 			if (*line)
+// 				add_history(line);
+// 			parsing_n_expand(line, envp, &cmds, envi);
+// 			if (cmds && cmds->err == 0)
+// 				// exec_handler(&shell);
+// 				exec_handler(cmds, envp, &envi);
+// 			else if (cmds && cmds->err != 0)
+// 				g_sig_value = cmds->err;
+// 			free_cmds(cmds);
+// 		}
+// 		free_env(envi);
+// 		free(line);
+// 		rl_clear_history();
+// 	}
+// 	return (0);
+// }
 
 // int main(int argc, char **argv, char **envp)
 // {

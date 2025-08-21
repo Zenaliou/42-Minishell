@@ -6,16 +6,16 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 18:12:00 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/20 18:12:22 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:16:56 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char **list_to_tab(t_env *env)
+char	**list_to_tab(t_env *env)
 {
 	char	**tab;
-	int	i;
+	int		i;
 	t_env	*tmp;
 	t_env	*tmp2;
 
@@ -28,8 +28,8 @@ char **list_to_tab(t_env *env)
 		i++;
 		tmp2 = tmp2->next;
 	}
-	tab = malloc((i+1) * sizeof(char *));
-	ft_bzero(tab, (i+1) * sizeof(char *));
+	tab = malloc((i + 1) * sizeof(char *));
+	ft_bzero(tab, (i + 1) * sizeof(char *));
 	if (!tab)
 		return (NULL);
 	i = 0;
@@ -39,4 +39,13 @@ char **list_to_tab(t_env *env)
 		tmp = tmp->next;
 	}
 	return (tab);
+}
+
+void	buff_handling(char *buffer, int val, int i, t_env *tmp)
+{
+	val = ft_atol(&buffer[i]);
+	free(buffer);
+	buffer = ft_itoa(val + 1);
+	tmp->full = ft_strjoin("SHLVL=", buffer);
+	free(buffer);
 }

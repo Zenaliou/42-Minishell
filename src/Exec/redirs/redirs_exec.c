@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:09:22 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 18:31:53 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	redirs(t_shell **shell, int *p_fd, int *s_fd)
 
 	fd = -1;
 	(void)s_fd;
-	if (*p_fd != STDIN_FILENO && (!((*shell)->cmd->heredoc) || !(*shell)->cmd->infile))
+	if (*p_fd != STDIN_FILENO
+		&& (!((*shell)->cmd->heredoc) || !(*shell)->cmd->infile))
 		dupclose(p_fd, STDIN_FILENO);
 	else if (*p_fd != STDIN_FILENO)
 		close(*p_fd);

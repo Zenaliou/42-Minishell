@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:42:51 by niclee            #+#    #+#             */
-/*   Updated: 2025/07/02 14:29:27 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:55:11 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	builtin_pwd(void)
 
 char	*get_env_remake(t_env *envi)
 {
-	char *pwd;
-	char *path;
+	char	*pwd;
+	char	*path;
 	int		i;
 
 	i = 0;
@@ -42,10 +42,23 @@ char	*get_env_remake(t_env *envi)
 	path = ft_strdup(&pwd[i]);
 	if (!path)
 		return (free(path), getcwd(NULL, 0));
-	// printf("pwd from env %s\n", path);
 	return (path);
 }
 
+void	home_shortcut(char *str, int *i, int *j)
+{
+	while (str[*i] && *j <= 3)
+	{
+		if (str[*i] == '/')
+			j++;
+		if (*j == 3)
+		{
+			str[*i + 1] = '\0';
+			break ;
+		}
+		(*i)++;
+	}
+}
 
 char	*get_home(t_env *envi)
 {
@@ -63,17 +76,7 @@ char	*get_home(t_env *envi)
 	if (i > 1)
 	{
 		i = 0;
-		while (str[i] && j <= 3)
-		{
-			if (str[i] == '/')
-				j++;
-			if (j == 3)
-			{
-				str[i+1] = '\0';
-				break ;
-			}
-			i++;
-		}
+		home_shortcut(str, &i, &j);
 	}
 	return (str);
 }

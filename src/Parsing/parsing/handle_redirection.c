@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:26:57 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:04:24 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 20:40:45 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	handle_heredoc(t_cmd *cmd, t_token *limiter_token, t_stock *stock)
 {
 	int	new_fd;
 
+	new_fd = -1;
 	stock->curr_cmd = cmd;
 	stock->curr_token = limiter_token;
 	new_fd = heredoc(stock);

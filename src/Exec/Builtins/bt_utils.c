@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   bt_utils.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2025/07/31 18:24:17 by gule-bat          #+#    #+#             */
 /*   Updated: 2025/07/31 18:24:17 by gule-bat         ###   ########.fr       */
 /*                                                                            */
@@ -29,7 +32,7 @@ void	builtin_finder(t_shell **shell, int i)
 	else if (i == 6)
 		builtin_env(*shell);
 	else if (i == 7)
-		builtin_exit((*shell)->cmd->argv, shell);	
+		builtin_exit((*shell)->cmd->argv, shell);
 }
 
 int	is_builtin(char *str)
@@ -54,7 +57,7 @@ int	is_builtin(char *str)
 		return (-1);
 }
 
-int is_bt_int(int i)
+int	is_bt_int(int i)
 {
 	if (i == 2 || i == 4 || i == 5 || i == 7)
 		return (1);

@@ -26,16 +26,15 @@ int	builtin_echo(char **args)
 		while (args[i][j] == 'n')
 			j++;
 		if (args[i][j] != '\0')
-			break;
+			break ;
 		n_option = 1;
 		i++;
 	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
+		if (args[i++ + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
-		i++;
 	}
 	if (!n_option)
 		ft_putchar_fd('\n', STDOUT_FILENO);

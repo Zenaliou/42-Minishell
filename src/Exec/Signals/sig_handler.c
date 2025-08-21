@@ -20,16 +20,12 @@ void    sig_dealer(int  signum, siginfo_t *info, void *context) //gives the valu
 	(void)context;
 	if (signum == SIGINT)
 	{
-		if (g_sig_value == 467982)
-			return ;
 		printf("\n\n");
 		g_sig_value = 128+SIGINT;
 		rl_on_new_line();
-		printf("%s", PROMPT2);
-		// rl_replace_line(prompt2, 0);
+		// printf("%s", PROMPT2);
 		rl_replace_line("", 0);
 		rl_redisplay();
-		// rl_replace_line("", 0);
 	}
 	else if (signum == SIGQUIT)
 		g_sig_value = SIGQUIT;
