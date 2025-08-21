@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: niclee <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: niclee <marvin@42.fr>                      +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/11/23 12:01:59 by niclee            #+#    #+#             */
 /*   Updated: 2024/11/23 12:02:00 by niclee           ###   ########.fr       */
 /*                                                                            */
@@ -34,6 +37,7 @@ char	*ft_itoa(int n)
 	char	*str;
 	int		len;
 	long	num;
+	int		i;
 
 	num = n;
 	len = num_digit(num);
@@ -48,7 +52,7 @@ char	*ft_itoa(int n)
 		str[0] = '-';
 		num = -num;
 	}
-	int i = len - 1;
+	i = len - 1;
 	while (num > 0)
 	{
 		str[i--] = (num % 10) + '0';
