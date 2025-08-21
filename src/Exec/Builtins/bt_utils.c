@@ -63,3 +63,19 @@ int is_bt_int(int i)
 	else
 		return (-1);
 }
+
+char	*go_to_equal(char *str)
+{
+	int		i;
+	char	*dup;
+
+	i = 0;
+	dup = NULL;
+	dup = ft_strdup(str);
+	if (!dup)
+		return (NULL);
+	while (dup[i] && dup[i] != '=')
+		i++;
+	dup[i] = '\0';
+	return (dup);
+}

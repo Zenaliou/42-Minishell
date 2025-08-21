@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:38 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:18:01 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 16:08:08 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int								builtin_exit(char **args, t_shell **shell);
 int								is_builtin(char *str);
 void							builtin_finder(t_shell **shell, int i);
 int								is_bt_int(int i);
+char							*go_to_equal(char *str);
 
 // fake env
 int								nodeend(t_env **head, char *env);
