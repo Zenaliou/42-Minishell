@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:38 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:15:38 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/21 15:18:01 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ char							**list_to_tab(t_env *env);
 // DEBUG
 void							print_cmds(t_cmd *cmds);
 void							print_tokens(t_token *tokens);
+int								checkerror(t_cmd *cmds);
 
 // SIGNALS
 void							sig_handler(void);
@@ -203,21 +204,17 @@ char							*pathing(t_cmd *cmds, t_env *env);
 // HEREDOC
 int								dochere(int *fd, t_token *limiter, t_env *env);
 int								heredoc(t_stock *stock);
-
 void							print_heredoc(t_cmd *cmd, char *infile,
 									int *fd);
-
 void							dupclose(int *fd, int entry);
 
-int								checkerror(t_cmd *cmds);
-
+// REDIR
 void							redir_in(t_shell **shell, int *fd);
 void							redir_out(t_shell **shell, int *fd);
 t_shell							shell_init(t_cmd *cmds, char **env,
 									t_env **envi);
 void							redirs(t_shell **shell, int *p_fd, int *s_fd);
 pid_t							waiting_and_status(pid_t *pid, int *i);
-
 void							dupclose(int *fd, int entry);
 
 #endif
