@@ -38,6 +38,8 @@ int	subprocess(t_shell *shell, int *p_fd, int *fd, int bt)
 	if ((!shell->cmd->argv && !path) || g_sig_value == 1)
 		return (free_sub_proc(path, shell->env, shell->head, shell), exit(1),
 			-1);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	if (!path || execve(path, shell->cmd->argv, shell->envtab) < 0)
 		return (perror("Minishell: Unable to execute command"),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(127), -1);
