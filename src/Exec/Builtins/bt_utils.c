@@ -35,7 +35,7 @@ void	builtin_finder(t_shell **shell, int i)
 		builtin_exit((*shell)->cmd->argv, shell);
 }
 
-int	is_builtin(char *str)
+int	is_builtin(char *str, t_shell *shell)
 {
 	if (!str)
 		return (-1);
@@ -49,7 +49,7 @@ int	is_builtin(char *str)
 		return (4);
 	else if (ft_strcmp(str, "unset") == 0)
 		return (5);
-	else if (ft_strcmp(str, "env") == 0)
+	else if (ft_strcmp(str, "env") == 0 && !shell->cmd->argv[1])
 		return (6);
 	else if (ft_strcmp(str, "exit") == 0)
 		return (7);

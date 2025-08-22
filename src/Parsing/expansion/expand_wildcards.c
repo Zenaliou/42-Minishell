@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcards.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:58:14 by niclee            #+#    #+#             */
-/*   Updated: 2025/06/30 16:05:46 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/22 04:03:51 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	expand_wildcards(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && ft_strchr(current->value, '*'))
+		if ((current->type == WORD && ft_strchr(current->value, '*'))
+			&& ft_strlen(current->value) > 1)
 			process_wildcard_token(current);
 		current = current->next;
 	}

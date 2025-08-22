@@ -96,8 +96,8 @@ int	builtin_export(t_shell **shell)
 	int		has_equal;
 
 	head = (*shell)->env;
-	if (!(*shell)->cmd->argv[1] || ft_strncmp((*shell)->cmd->argv[1], "_=",
-			1) == 0)
+	if (!(*shell)->cmd->argv[1] || (ft_strncmp((*shell)->cmd->argv[1], "_=",
+				1) == 0 || ft_strncmp((*shell)->cmd->argv[1], "=", 0)) == 0)
 		return (builtin_env(*shell), 0);
 	line = parser_export((*shell)->cmd->argv[1]);
 	dup2 = go_to_equal(line);

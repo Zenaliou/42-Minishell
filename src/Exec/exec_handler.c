@@ -32,7 +32,7 @@ int	subprocess(t_shell *shell, int *p_fd, int *fd, int bt)
 			close(*p_fd);
 	redirs(&shell, p_fd, fd);
 	if (bt == 1 || bt == 2)
-		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0])),
+		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0], shell)),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(0), 1);
 	path = pathing(shell->cmd, shell->env);
 	if ((!shell->cmd->argv && !path) || g_sig_value == 1)
@@ -51,9 +51,9 @@ pid_t	processing(t_shell *shell, int *p_fd)
 
 	bt = 0;
 	if (shell->cmd->argv)
-		bt = is_bt_int(is_builtin(shell->cmd->argv[0]));
-	if ((bt == 1 && !shell->cmd->next) && *p_fd == STDIN_FILENO)
-		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0])),
+		bt = is_bt_int(is_builtin(shell->cmd->argv[0], shell));
+	if (((bt == 1 && !shell->cmd->next) && *p_fd == STDIN_FILENO))
+		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0], shell)),
 			shell->cmd->pid);
 	if (piping(&shell, fd) == -1)
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:13:03 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:13:32 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/22 03:45:22 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	*expand_all_vars(const char *str, char **env)
 	char		*result;
 	const char	*p;
 
+	if (!env || !str)
+		return (NULL);
 	result = ft_calloc(1, 1);
 	p = str;
 	while (*p)

@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 17:39:04 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/22 04:50:34 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ void	parsing_n_expand(char *line, char **env, t_cmd **cmds, t_env *envi)
 	expand_variables(tokens, envv);
 	freetab(envv);
 	*cmds = parse_tokens(tokens, envi);
-	// ft_putstr_fd("\n=== Résultat du parsing ===\n", 2); // DEBUG
-	// print_cmds(*cmds); // DEBUG
 	free_tokens(tokens);
-	free(line);	
+	free(line);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -37,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_cmd	*cmds;
 	t_env	*envi;
-	// t_shell	shell;
 
 	(void)argc;
 	(void)argv;
@@ -47,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 	sig_handler();
 	while (1)
 	{
-		line = readline(PROMPT); // texte trop long donc dans le .h
+		line = readline(PROMPT);
 		if (!line)
 			return (printf("exit\n"), free(line), free_env(envi), 0);
 		if (*line)
@@ -57,9 +54,11 @@ int	main(int argc, char **argv, char **envp)
 			exec_handler(cmds, envp, &envi);
 		free_cmds(cmds);
 	}
-	return (free_env(envi), free(line),	rl_clear_history(),	0);
+	return (free_env(envi), free(line), rl_clear_history(), 0);
 }
 
+// ft_putstr_fd("\n=== Résultat du parsing ===\n", 2); // DEBUG
+// print_cmds(*cmds); // DEBUG
 // int	main(int argc, char **argv, char **envp) // tester main
 // {
 // 	char	*line = NULL;

@@ -17,7 +17,6 @@ void	sigign(int val)
 	close(STDIN_FILENO);
 	g_sig_value = SIGINT;
 	readline(NULL);
-	// ft_putstr_fd("\r                      \n",2);
 	(void)val;
 }
 
@@ -40,7 +39,8 @@ int	dochere(int *fd, t_token *limiter, t_env *env)
 			ft_putstr_fd("\nhere-document delimited by end-of-file\n", 2),
 			-1);
 	if (((ft_strncmp(infile, limiter->value, ft_strlen(limiter->value)) == 0)
-			&& infile[ft_strlen(limiter->value)] == '\n') || g_sig_value == SIGINT)
+			&& infile[ft_strlen(limiter->value)] == '\n')
+		|| g_sig_value == SIGINT)
 		return (free(infile), free(st), freetab(envv), close(fd[0]), (-1));
 	if (st)
 		ft_putstr_fd(st, fd[1]);
@@ -74,33 +74,34 @@ int	heredoc(t_stock *stock)
 		signal(SIGINT, &sigign);
 		close(fd[0]);
 		if (g_sig_value == SIGINT)
-			return (close(fd[1]), free_cmds(stock->curr_cmd), free_tokens(stock->token_head),
-				free_cmds(stock->cmd_head), free_env(stock->env), exit(g_sig_value), 0);
+			return (close_heredoc(stock, fd), exit(g_sig_value), 0);
 		while (1 || g_sig_value == SIGINT)
 		{
-			if (dochere(fd, stock->curr_token, stock->env) == -1 || g_sig_value == SIGINT)
+			if (dochere(fd, stock->curr_token, stock->env) == -1)
 				break ;
 		}
-		return (close(fd[1]), free_cmds(stock->curr_cmd), free_tokens(stock->token_head), 
-			free_cmds(stock->cmd_head), free_env(stock->env), exit(g_sig_value), 0);
+		return (close_heredoc(stock, fd), exit(g_sig_value), 0);
 	}
 	while (WIFEXITED(status) != 1)
 		waiting_status(&pid, &status);
 	return (close(fd[1]), fd[0]);
 }
 
-void	print_heredoc(t_cmd *cmd, char *infile, int *fd)
-{
-	while (1 && (!cmd->append))
-	{
-		infile = get_next_line(*fd);
-		if (!infile)
-			break ;
-		ft_putstr_fd(infile, STDOUT_FILENO);
-		free(infile);
-	}
-	close(*fd);
-}
+/*close(fd[1]), free_cmds(stock->curr_cmd), free_tokens(stock->token_head), 
+			free_cmds(stock->cmd_head), free_env(stock->env)*/
+
+// void	print_heredoc(t_cmd *cmd, char *infile, int *fd)
+// {
+// 	while (1 && (!cmd->append))
+// 	{
+// 		infile = get_next_line(*fd);
+// 		if (!infile)
+// 			break ;
+// 		ft_putstr_fd(infile, STDOUT_FILENO);
+// 		free(infile);
+// 	}
+// 	close(*fd);
+// }
 
 int	piping(t_shell **shell, int *fd)
 {

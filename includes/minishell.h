@@ -6,7 +6,7 @@
 /*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:38 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 18:26:17 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/22 04:17:31 by gule-bat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 # include <unistd.h>
 
 // # define PROMPT "minishell> "
-# define PROMPT "\e[45m \e[41m\e[4;32m[ minishell ]\e[0m -> "
+// # define PROMPT "\e[45m \e[41m\e[4;32m[ minishell ]\e[0m -> "
+# define PROMPT "\e[047m \e[0;101m\e[4;37m[ minishell ]\e[0m -> $ "
 # define PROMPT2 "minishell\n"
 # define MAXASCII 257
 
@@ -175,7 +176,7 @@ void							builtin_env(t_shell *shell);
 void							builtin_unset(t_shell **shell);
 int								builtin_export(t_shell **shell);
 int								builtin_exit(char **args, t_shell **shell);
-int								is_builtin(char *str);
+int								is_builtin(char *str, t_shell *shell);
 void							builtin_finder(t_shell **shell, int i);
 int								is_bt_int(int i);
 char							*go_to_equal(char *str);
@@ -212,6 +213,7 @@ int								heredoc(t_stock *stock);
 void							print_heredoc(t_cmd *cmd, char *infile,
 									int *fd);
 void							dupclose(int *fd, int entry);
+void							close_heredoc(t_stock *stock, int *fd);
 
 // REDIR
 void							redir_in(t_shell **shell, int *fd);
