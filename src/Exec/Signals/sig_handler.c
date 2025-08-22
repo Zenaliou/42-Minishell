@@ -46,13 +46,21 @@ void	sig_handler(void)
 pid_t	waiting_and_status(pid_t *pid, int *i)
 {
 	int	stat;
+	int	sig;
 
 	stat = 0;
 	waitpid(*pid, &stat, 0);
 	if (WIFEXITED(stat))
 		g_sig_value = WEXITSTATUS(stat);
 	else if (WIFSIGNALED(stat))
+	{
+		sig = WTERMSIG(stat);
 		g_sig_value = (128 + WTERMSIG(stat)) % 256;
+		if (sig == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+		else if (sig == SIGINT)
+			ft_putstr_fd("\n", 2);
+	}
 	*i = 1;
 	return (*pid);
 }
