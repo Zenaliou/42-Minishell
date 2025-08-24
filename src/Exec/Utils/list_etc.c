@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_etc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 18:12:00 by gule-bat          #+#    #+#             */
-/*   Updated: 2025/08/22 04:42:44 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/23 14:43:35 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,19 @@ void	close_heredoc(t_stock *stock, int *fd)
 	free_tokens(stock->token_head);
 	free_cmds(stock->cmd_head);
 	free_env(stock->env);
+}
+
+void	handling_pipe_redirs(t_shell *shell, int *p_fd, int *fd)
+{
+	if (((shell->cmd->next) && ((!shell->cmd->outfile))))
+	{
+		close(fd[0]);
+		dupclose(&fd[1], STDOUT_FILENO);
+	}
+	else if (shell->cmd->next)
+		close(fd[1]);
+	if (shell->cmd->infile || shell->cmd->heredoc)
+		if (*p_fd != STDIN_FILENO)
+			close(*p_fd);
+	redirs(&shell, p_fd, fd);
 }

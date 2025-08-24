@@ -47,16 +47,6 @@ $(NAME): $(OBJ_DIR) $(OBJS) $(LIBFT)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 	@echo "$(BLUE)📁 Dossier obj créé.$(NC)"
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@xdotool key ctrl+minus
-	@cat basile.txt
-	@sleep 2
-	@xdotool key ctrl+0
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE_DIR)/minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@

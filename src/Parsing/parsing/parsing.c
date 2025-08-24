@@ -6,7 +6,7 @@
 /*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:42:26 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/21 15:07:28 by niclee           ###   ########.fr       */
+/*   Updated: 2025/08/23 15:53:02 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*parse_pipeline(t_token **tokens, t_stock *stock)
 		right_cmd = parse_simple_command(tokens, stock);
 		if (!right_cmd)
 		{
-			fprintf(stderr, "Syntax error: expected command after '|'\n");
+			ft_putstr_fd("Syntax error: expected command after '|'\n", 2);
 			free_cmds(cmds);
 			return (NULL);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:10:38 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/22 04:17:31 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:42:11 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ int								exec_handler(t_cmd *cmds, char **env,
 									t_env **envi);
 int								process_board(t_shell *shell);
 int								piping(t_shell **shell, int *fd);
-
+void							handling_pipe_redirs(t_shell *shell, int *p_fd,
+									int *fd);
 
 // BUILT_IN
 int								builtin_echo(char **args);
@@ -188,7 +189,8 @@ int								fakeenv(char **env, t_env **envi);
 int								search_env(char *line, char *baseline);
 char							**getenvmini(t_env *env);
 char							**list_to_tab(t_env *env);
-void	buff_handling(char *buffer, int val, int i, t_env *tmp);
+void							buff_handling(char *buffer, int val, int i,
+									t_env *tmp);
 // DEBUG
 void							print_cmds(t_cmd *cmds);
 void							print_tokens(t_token *tokens);

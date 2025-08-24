@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 14:57:34 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/22 04:50:34 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:49:02 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	main(int argc, char **argv, char **envp)
 		parsing_n_expand(line, envp, &cmds, envi);
 		if (cmds && checkerror(cmds) == 0)
 			exec_handler(cmds, envp, &envi);
+		else if (cmds && cmds->err != 0)
+			g_sig_value = cmds->err;
 		free_cmds(cmds);
 	}
 	return (free_env(envi), free(line), rl_clear_history(), 0);

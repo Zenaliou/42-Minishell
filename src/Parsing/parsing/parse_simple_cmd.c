@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gule-bat <gule-bat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: niclee <niclee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 15:24:45 by niclee            #+#    #+#             */
-/*   Updated: 2025/08/19 15:01:00 by gule-bat         ###   ########.fr       */
+/*   Updated: 2025/08/23 15:43:05 by niclee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_redirection(int type)
 {
-	return (type == REDIR_IN || type == REDIR_OUT
-		|| type == REDIR_APPEND || type == HEREDOC);
+	return (type == REDIR_IN || type == REDIR_OUT || type == REDIR_APPEND
+		|| type == HEREDOC);
 }
 
 t_token	*handle_word_token(t_cmd **cmd, t_token *token)
@@ -29,19 +29,25 @@ t_token	*handle_word_token(t_cmd **cmd, t_token *token)
 
 t_cmd	*handle_pipe_syntax_error(t_cmd *cmd)
 {
+	t_cmd	*err_cmd;
+
+	err_cmd = new_cmd();
 	ft_putstr_fd("Syntax error: unexpected '|'\n", STDERR_FILENO);
 	if (cmd)
 		free_cmds(cmd);
-	return (NULL);
+	err_cmd->err = 2;
+	return (err_cmd);
 }
 
 t_cmd	*parse_simple_command(t_token **tokens, t_stock *stock)
 {
-	t_cmd		*cmd;
-	t_token		*current;
+	t_cmd	*cmd;
+	t_token	*current;
 
 	cmd = NULL;
 	current = *tokens;
+	if (current && current->type == PIPE)
+		return (*tokens = current->next, handle_pipe_syntax_error(cmd));
 	while (current && current->type != AND && current->type != OR
 		&& current->type != PIPE)
 	{

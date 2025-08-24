@@ -20,29 +20,19 @@ int	subprocess(t_shell *shell, int *p_fd, int *fd, int bt)
 	char	*path;
 
 	path = NULL;
-	if (((shell->cmd->next) && ((!shell->cmd->outfile))))
-	{
-		close(fd[0]);
-		dupclose(&fd[1], STDOUT_FILENO);
-	}
-	else if (shell->cmd->next)
-		close(fd[1]);
-	if (shell->cmd->infile || shell->cmd->heredoc)
-		if (*p_fd != STDIN_FILENO)
-			close(*p_fd);
-	redirs(&shell, p_fd, fd);
+	handling_pipe_redirs(shell, p_fd, fd);
 	if (bt == 1 || bt == 2)
 		return (builtin_finder(&shell, is_builtin(shell->cmd->argv[0], shell)),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(0), 1);
 	path = pathing(shell->cmd, shell->env);
-	if ((!shell->cmd->argv && !path) || g_sig_value == 1)
-		return (free_sub_proc(path, shell->env, shell->head, shell), exit(1),
-			-1);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	if (!path || execve(path, shell->cmd->argv, shell->envtab) < 0)
 		return (perror("Minishell: Unable to execute command"),
 			free_sub_proc(path, shell->env, shell->head, shell), exit(127), -1);
+	if ((!shell->cmd->argv && !path) || g_sig_value == 1)
+		return (free_sub_proc(path, shell->env, shell->head, shell), exit(1),
+			-1);
 	exit(g_sig_value);
 }
 
